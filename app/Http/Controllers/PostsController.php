@@ -134,7 +134,7 @@ class PostsController extends Controller
 
         Session::flash('success', 'Post deleted permanently.');
 
-        return redirect()->route('posts');
+        return redirect()->route('posts.trashed');
     }
 
     public function trashed()
