@@ -3,16 +3,17 @@
 @component('admin.component.content')
 
 	<div class="card">
-		<div class="card-header">
-			Todos los usuarios
-		</div>
+		<h5 class="card-header">
+			<b>Todos los usuarios</b>
+			<a class="btn btn-primary" href="{{ route('users.create') }}"> Crear Usuario</a>
+		</h5>
 		<div class="card-body">
 			<table class="table table-hover">
 				<thead>
 				<th>Avatar</th>
 				<th>Nombre</th>
 				<th>Rol</th>
-				<th>Delete</th>
+				<th>Acciones</th>
 				</thead>
 
 				<tbody>

@@ -1,43 +1,78 @@
 @extends('layouts.app')
 
-@section('content')
-	
-	@include('admin.includes.errors')
+@component('admin.component.content')
 
-	<div class="panel panel-default">
-		<div class="panel-heading"><b>Edit Blog Settings</b></div>
+	<div class="card">
+		<h5 class="card-header"><b>Edit Blog Settings</b></h5>
 
-		<div class="panel-body">
-			<form class="" action="{{ route('setting.update') }}" method="POST">
-				{{ csrf_field() }}
+		<div class="card-body">
 
-				<div class="form-group">
-					<label for="site_name">Site name</label>
-					<input type="text" class="form-control" name="site_name" value="{{ $setting->site_name }}">
+			{{ Form::model($settings,['route' => ['settings.update', $settings->id], 'method' => 'PUT']) }}
+
+			<div class="form-group row">
+				{{ Form::label('site_name', __('Nombre del Blog'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
+
+				<div class="col-md-6">
+					{{ Form::text('site_name', old('site_name'), ['class' => $errors->has('site_name') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
+
+					@if ($errors->has('site_name'))
+						<span class="invalid-feedback">
+			             <strong>{{ $errors->first('site_name') }}</strong>
+			         </span>
+					@endif
 				</div>
+			</div>
 
-				<div class="form-group">
-					<label for="site_name">Address</label>
-					<input type="text" class="form-control" name="address" value="{{ $setting->address }}">
-				</div>
+			<div class="form-group row">
+				{{ Form::label('address', __('Direccion'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
 
-				<div class="form-group">
-					<label for="site_name">Contact phone</label>
-					<input type="text" class="form-control" name="contact_number" value="{{ $setting->contact_number }}">
-				</div>
+				<div class="col-md-6">
+					{{ Form::text('address', old('address'), ['class' => $errors->has('address') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
 
-				<div class="form-group">
-					<label for="site_name">Contact email</label>
-					<input type="text" class="form-control" name="contact_email" value="{{ $setting->contact_email }}">
+					@if ($errors->has('address'))
+						<span class="invalid-feedback">
+			             <strong>{{ $errors->first('address') }}</strong>
+			         </span>
+					@endif
 				</div>
+			</div>
 
-				<div class="form-group">
-					<div class="text-center">
-						<button class="btn btn-success" type="submit">Update site settings!</button>
-					</div>
+			<div class="form-group row">
+				{{ Form::label('contac_number', __('Numero de contacto'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
+
+				<div class="col-md-6">
+					{{ Form::text('contact_number', old('contact_number'), ['class' => $errors->has('contact_number') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
+
+					@if ($errors->has('contact_number'))
+						<span class="invalid-feedback">
+			             <strong>{{ $errors->first('contact_number') }}</strong>
+			         </span>
+					@endif
 				</div>
-			</form>
+			</div>
+
+			<div class="form-group row">
+				{{ Form::label('contact_email', __('Email de contacto'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
+
+				<div class="col-md-6">
+					{{ Form::text('contact_email', old('contact_email'), ['class' => $errors->has('contact_email') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
+
+					@if ($errors->has('contact_email'))
+						<span class="invalid-feedback">
+			             <strong>{{ $errors->first('contact_email') }}</strong>
+			         </span>
+					@endif
+				</div>
+			</div>
+
+			<div class="form-group row mb-0">
+				<div class="col-md-6 offset-md-4">
+					{{ Form::submit(__('Actualizar'), ['class' => 'btn btn-primary']) }}
+				</div>
+			</div>
+
+			{{ Form::close() }}
 		</div>
 	</div>
 
-@stop
+@endcomponent

@@ -1,36 +1,38 @@
 @extends('layouts.app')
 
-@section('title', '| Add Role')
+@component('admin.component.content')
 
-@section('content')
+<div class='card'>
+    <h5 class="card-header"> Add Role</h5>
+    <div class="card-body">
+        {{ Form::open(array('url' => 'roles')) }}
 
-<div class='col-lg-4 col-lg-offset-4'>
+        <div class="form-group row">
+            {{ Form::label('name', __('Name'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
 
-    <h1><i class='fa fa-key'></i> Add Role</h1>
-    <hr>
-    {{-- @include ('errors.list') --}}
+            <div class="col-md-6">
+                {{ Form::text('name', null, array('class' => 'form-control')) }}
+            </div>
+        </div>
 
-    {{ Form::open(array('url' => 'roles')) }}
+        <div class='form-group row mb-0'>
+            {{ Form::label('permissions', __('Assign Permissions'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
+            <div class="col-md-6">
+                @foreach ($permissions as $permission)
+                    {{ Form::checkbox('permissions[]',  $permission->id ) }}
+                    {{ Form::label($permission->name, ucfirst($permission->name)) }}<br>
+                @endforeach
+            </div>
+        </div>
 
-    <div class="form-group">
-        {{ Form::label('name', 'Name') }}
-        {{ Form::text('name', null, array('class' => 'form-control')) }}
+        <div class="form-group row mb-0">
+            <div class="col-md-6 offset-md-4">
+                {{ Form::submit('Add', ['class' => 'btn btn-primary']) }}
+            </div>
+        </div>
+
+        {{ Form::close() }}
     </div>
-
-    <h5><b>Assign Permissions</b></h5>
-
-    <div class='form-group'>
-        @foreach ($permissions as $permission)
-            {{ Form::checkbox('permissions[]',  $permission->id ) }}
-            {{ Form::label($permission->name, ucfirst($permission->name)) }}<br>
-
-        @endforeach
-    </div>
-
-    {{ Form::submit('Add', array('class' => 'btn btn-primary')) }}
-
-    {{ Form::close() }}
-
 </div>
 
-@endsection
+@endcomponent

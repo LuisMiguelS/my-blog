@@ -1,33 +1,49 @@
 @extends('layouts.app')
 
-@section('content')
-	
-	@include('admin.includes.errors')
+@component('admin.component.content')
 
-	<div class="panel panel-default">
-		<div class="panel-heading"><b>Create a new User</b></div>
+	<div class="card">
+		<h5 class="card-header">
+			<b>Create a new User</b>
+		</h5>
 
-		<div class="panel-body">
-			<form class="" action="{{ route('user.store') }}" method="POST">
-				{{ csrf_field() }}
+		<div class="card-body">
+			{{ Form::open(['route' => 'users.store', 'method' => 'POST']) }}
 
-				<div class="form-group">
-					<label for="name">Name</label>
-					<input type="text" class="form-control" name="name" placeholder="Name">
-				</div>
+			<div class="form-group">
+				{{ Form::label('name', 'Name') }}
+				{{ Form::text('name', '', array('class' => 'form-control')) }}
+			</div>
 
-				<div class="form-group">
-					<label for="email">Email</label>
-					<input type="email" class="form-control" name="email" placeholder="Email">
-				</div>
+			<div class="form-group">
+				{{ Form::label('email', 'Email') }}
+				{{ Form::email('email', '', array('class' => 'form-control')) }}
+			</div>
 
-				<div class="form-group">
-					<div class="text-center">
-						<button class="btn btn-success" type="submit">Add user!</button>
-					</div>
-				</div>
-			</form>
-		</div>
-	</div>
+			<div class='form-group'>
+				@foreach ($roles as $role)
+					{{ Form::checkbox('roles[]',  $role->id ) }}
+					{{ Form::label($role->name, ucfirst($role->name)) }}<br>
 
-@stop
+				@endforeach
+			</div>
+
+			<div class="form-group">
+				{{ Form::label('password', 'Password') }}<br>
+				{{ Form::password('password', array('class' => 'form-control')) }}
+
+			</div>
+
+			<div class="form-group">
+				{{ Form::label('password', 'Confirm Password') }}<br>
+				{{ Form::password('password_confirmation', array('class' => 'form-control')) }}
+
+			</div>
+
+			{{ Form::submit('Add', array('class' => 'btn btn-primary')) }}
+
+			{{ Form::close() }}
+        </div>
+    </div>
+
+@endcomponent

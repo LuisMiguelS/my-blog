@@ -2,26 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use Session;
 use App\Setting;
 
 class SettingController extends Controller
 {
-	public function __construct()
-	{
-		$this->middleware('admin');
-	}
-
 	public function index()
 	{
-		return view('admin.settings.settings', ['setting' => Setting::first()]);
+        $settings = Setting::first();
+		return view('admin.settings.settings', compact('settings'));
 	}
 
     public function update()
     {
-    	$this->validate(request(), [
+    	$campos = request()->validate([
     		'site_name' => 'required',
     		'contact_number' => 'required',
     		'contact_email' => 'required',
@@ -30,15 +23,8 @@ class SettingController extends Controller
 
     	$setting = Setting::first();
 
-    	$setting->site_name = request()->site_name;
-    	$setting->contact_number = request()->contact_number;
-    	$setting->contact_email = request()->contact_email;
-    	$setting->address = request()->address;
+    	$setting->fill($campos)->save();
 
-    	$setting->save();
-
-    	Session::flash('success', 'Settings updated successfully.');
-
-    	return redirect()->back();
+    	return back()->with(['success' => 'Settings updated successfully.']);
     }
 }

@@ -2,6 +2,11 @@
 
 Auth::routes();
 
+Route::get('/', [
+    'uses' => 'HomeController@index',
+    'as' => 'home.index'
+]);
+
 /*Route::get('/', [
 	'uses' => 'FrontEndController@index',
 	'as' => 'index'
@@ -29,7 +34,9 @@ Route::get('search', [
 
 Route::prefix('admin')->middleware(['auth','admin'])->group(function(){
 
-    Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
+    Route::get('dashboard', 'DashboardController@index')
+        ->name('dashboard.index')
+        ->middleware('profile');
 
     /*
      * RUTAS PARA EL MODULO DE LOS POSTS*
@@ -60,6 +67,11 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(function(){
      * RUTAS PARA EL MODULO DE LOS USUARIOS
      */
     Route::resource('users', 'UserController')->except('show');
+
+    /*
+     * Profile
+     */
+    Route::resource('profile', 'ProfileController')->only(['index','update']);
 
     /*
      * RUTAS PARA LA CONFIG. DEL SITIO

@@ -3,7 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>{{ $title }}</title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
     <link rel="stylesheet" type="text/css" href="{{ asset('app/css/fonts.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('app/css/crumina-fonts.css') }}">
@@ -46,7 +46,7 @@
 
     <div class="header-spacer"></div>
 
-    <div class="container">
+  {{--  <div class="container">
         @if($first_post)
             <div class="row">
                 <div class="col-lg-2"></div>
@@ -211,7 +211,7 @@
                 <h3 class="entry-title text-center">No Post Published Yet!</h3>
             </div>
         @endif
-    </div>
+    </div>--}}
 
     <div class="container-fluid">
         <div class="row medium-padding120 bg-border-color">
@@ -221,7 +221,7 @@
                     <div class="row">
                         <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
                             <div class="heading">
-                                <h4 class="h1 heading-title">{{ $plum_sg->name }}</h4>
+                                {{--<h4 class="h1 heading-title">{{ $plum_sg->name }}</h4>--}}
                                 <div class="heading-line">
                                     <span class="short-line"></span>
                                     <span class="long-line"></span>
@@ -231,7 +231,7 @@
                     </div>
                     <div class="row">
                         <div class="case-item-wrap">
-                            @foreach($plum_sg->posts()->orderBy('created_at', 'desc')->take(3)->get() as $post)
+                        {{--    @foreach($plum_sg->posts()->orderBy('created_at', 'desc')->take(3)->get() as $post)
                                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                                     <div class="case-item">
                                         <div class="case-item__thumb">
@@ -240,7 +240,7 @@
                                         <h6 class="case-item__title text-center"><a href="{{ route('post.single', ['slug' => $post->slug]) }}">{{ $post->title }}</a></h6>
                                     </div>
                                 </div>
-                            @endforeach
+                            @endforeach--}}
                         </div>
                     </div>
                 </div>
@@ -249,7 +249,7 @@
                     <div class="row">
                         <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
                             <div class="heading">
-                                <h4 class="h1 heading-title">{{ $emily_rudd->name }}</h4>
+                                {{--<h4 class="h1 heading-title">{{ $emily_rudd->name }}</h4>--}}
                                 <div class="heading-line">
                                     <span class="short-line"></span>
                                     <span class="long-line"></span>
@@ -259,7 +259,7 @@
                     </div>
                     <div class="row">
                         <div class="case-item-wrap">
-                            @foreach($emily_rudd->posts()->orderBy('created_at', 'desc')->take(3)->get() as $post)
+               {{--             @foreach($emily_rudd->posts()->orderBy('created_at', 'desc')->take(3)->get() as $post)
                                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                                     <div class="case-item">
                                         <div class="case-item__thumb">
@@ -268,7 +268,7 @@
                                         <h6 class="case-item__title text-center"><a href="{{ route('post.single', ['slug' => $post->slug]) }}">{{ $post->title }}</a></h6>
                                     </div>
                                 </div>
-                            @endforeach
+                            @endforeach--}}
                         </div>
                     </div>
                 </div>

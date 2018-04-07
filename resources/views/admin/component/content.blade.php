@@ -23,7 +23,7 @@
                         Usuarios
                     </a>
 
-                    <a class="app-list-group-item list-group-item-action" href="">
+                    <a class="app-list-group-item list-group-item-action" href="{{ route('profile.index') }}">
                         Perfil
                     </a>
 
@@ -35,7 +35,7 @@
                         Permisos
                     </a>
 
-                    <a class="app-list-group-item list-group-item-action" href="">
+                    <a class="app-list-group-item list-group-item-action" href="{{ route('settings.index') }}">
                         Configuraciones
                     </a>
                 </div>

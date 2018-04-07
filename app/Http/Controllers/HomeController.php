@@ -2,25 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use App\Post;
-use App\Category;
-use App\Setting;
-use App\Tag;
-
 class HomeController extends Controller
 {
     public function index()
     {
-     /*   'title' => Setting::first()->site_name,
-        'categories' => Category::take(5)->get(),
-        'first_post' => Post::orderBy('created_at', 'desc')->first(),
-        'second_post' => Post::orderBy('created_at', 'desc')->skip(1)->take(1)->get()->first(),
-        'third_post' => Post::orderBy('created_at', 'desc')->skip(2)->take(1)->get()->first(),
-        'plum_sg' => Category::find(2),
-        'emily_rudd' => Category::find(1),
-        'settings' => Setting::first()*/
     	return view('index');
     }
 

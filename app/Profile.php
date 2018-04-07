@@ -17,6 +17,6 @@ class Profile extends Model
 
     public function getAvatarAttribute($avatar)
     {
-        return asset($avatar);
+        return asset('storage/'.$avatar);
     }
 }

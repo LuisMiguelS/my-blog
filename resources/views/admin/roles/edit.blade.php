@@ -1,32 +1,53 @@
 @extends('layouts.app')
 
-@section('title', '| Edit Role')
+@component('admin.component.content')
 
-@section('content')
+<div class='card'>
+    <h5 class="card-header">
+        <b>Edit Role: {{$role->name}}</b>
+    </h5>
 
-<div class='col-lg-4 col-lg-offset-4'>
-    <h1><i class='fa fa-key'></i> Edit Role: {{$role->name}}</h1>
-    <hr>
-    {{-- @include ('errors.list')
- --}}
-    {{ Form::model($role, array('route' => array('roles.update', $role->id), 'method' => 'PUT')) }}
+    <div class="card-body">
+        {{ Form::model($role, ['route' => ['roles.update', $role->id], 'method' => 'PUT']) }}
 
-    <div class="form-group">
-        {{ Form::label('name', 'Role Name') }}
-        {{ Form::text('name', null, array('class' => 'form-control')) }}
+        <div class="form-group row">
+            {{ Form::label('name', __('Rol'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
+
+            <div class="col-md-6">
+                {{ Form::text('name', old('name'), ['class' => $errors->has('name') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
+
+                @if ($errors->has('name'))
+                    <span class="invalid-feedback">
+                     <strong>{{ $errors->first('name') }}</strong>
+                 </span>
+                @endif
+            </div>
+        </div>
+
+        <div class="form-group row">
+            {{ Form::label('permission', __('Assign Permissions'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
+
+            <div class="col-md-6">
+                @foreach ($permissions as $permission)
+                    {{Form::checkbox('permissions[]',  $permission->id, $role->permissions ) }}
+                    {{Form::label($permission->name, ucfirst($permission->name)) }}<br>
+                @endforeach
+                @if ($errors->has('permission'))
+                    <span class="invalid-feedback">
+                     <strong>{{ $errors->first('permission') }}</strong>
+                 </span>
+                @endif
+            </div>
+        </div>
+
+        <div class="form-group row mb-0">
+            <div class="col-md-6 offset-md-4">
+                {{ Form::submit('Editar', ['class' => 'btn btn-primary']) }}
+            </div>
+        </div>
+
+        {{ Form::close() }}
     </div>
-
-    <h5><b>Assign Permissions</b></h5>
-    @foreach ($permissions as $permission)
-
-        {{Form::checkbox('permissions[]',  $permission->id, $role->permissions ) }}
-        {{Form::label($permission->name, ucfirst($permission->name)) }}<br>
-
-    @endforeach
-    <br>
-    {{ Form::submit('Edit', array('class' => 'btn btn-primary')) }}
-
-    {{ Form::close() }}    
 </div>
 
-@endsection
+@endcomponent
