@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Config;
 use App\Setting;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class SettingsServiceProvider extends ServiceProvider
@@ -15,17 +16,18 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $settings = Setting::first();
+        if (Schema::hasTable('settings')) {
+            $settings = Setting::first();
 
-        if (isset($settings->site_name)) {
-            Config::set('app.name', $settings->site_name);
+            if (isset($settings->site_name)) {
+                Config::set('app.name', $settings->site_name);
+            }
+
+            Config::set('app.contact', [
+                'phone' => $settings->contact_number,
+                'email' => $settings->contact_email,
+                'address' => $settings->address,
+            ]);
         }
-
-        Config::set('app.contact', [
-            'phone' => $settings->contact_number,
-            'email' => $settings->contact_email,
-            'address' => $settings->address,
-        ]);
-
     }
 }
