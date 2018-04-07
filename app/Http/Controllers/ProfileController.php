@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Session;
 use Auth;
 
-class ProfilesController extends Controller
+class ProfileController extends Controller
 {
     public function index()
     {

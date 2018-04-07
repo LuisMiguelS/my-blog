@@ -3,17 +3,26 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
+    use SoftDeletes;
+
 	protected $fillable = ['name'];
-	
-	/*Este metodo indica la relacion que existe entre Post y Category
-	  es por eso que aparece el metodo: 'public function posts ()' en
-	  este modelo de categorias. _Una categoria puede tener muchos posts.		
-	*/
+
+    public function setNameAttribute($name)
+    {
+        $this->attributes['name'] = strtolower($name);
+    }
+
+    public function getNameAttribute($name)
+    {
+        return ucwords($name);
+    }
+
     public function posts ()
     {
-    	return $this->hasMany('App\Post');
+    	return $this->hasMany(Post::class);
     }
 }

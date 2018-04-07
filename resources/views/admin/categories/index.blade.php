@@ -1,43 +1,50 @@
 @extends('layouts.app')
 
-@section('content')
-	
-	<div class="panel panel-default">
-		<div class="panel-heading"><b>Published Categories</b></div>
+@component('admin.component.content')
 
-		<div class="panel-body">
+	<div class="card">
+		<h5 class="card-header">
+			<b>Categorías Publicadas</b>
+			<a class="btn btn-outline-secondary" href="{{ route('categories.create') }}">
+				Crear Categoria
+			</a>
+		</h5>
+		<div class="card-body">
 			<table class="table table-hover">
 				<thead>
-					<th>Category name</th>
-					<th>Editing</th>
-					<th>Deleting</th>
+				<th>Category name</th>
+				<th>Acciones</th>
 				</thead>
 
 				<tbody>
-					@if($categories->count() > 0)
-					
-						@foreach($categories as $category)
-							<tr>
-								<td>{{ $category->name }}</td>
-								
-								<td>
-									<a href="{{ route('category.edit', ['id' => $category->id]) }}" class="btn btn-info btn-sm">Edit</a>
-								</td>
+				@if($categories->count() > 0)
 
-								<td>
-									<a href="{{ route('category.delete', ['id' => $category->id]) }}" class="btn btn-danger btn-sm">Delete</a>
-								</td>
-							</tr>
-						@endforeach
-
-					@else
+					@foreach($categories as $category)
 						<tr>
-							<th colspan="5" class="text-center">No Categories Yet.</th>
+							<td>{{ $category->name }}</td>
+
+							<td>
+								<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
+								<div class="dropdown-menu">
+									<a class="dropdown-item" href="{{ route('categories.edit', ['id' => $category->id]) }}">Editar</a>
+									{{ Form::open(['route' => ['categories.destroy', $category->id], 'method' => 'DELETE']) }}
+									{{ Form::submit(__('Eliminar'), ['class' => 'dropdown-item']) }}
+									{{ Form::close() }}
+								</div>
+							</td>
 						</tr>
-					@endif
+					@endforeach
+
+				@else
+					<tr>
+						<th colspan="5" class="text-center">No Categories Yet.</th>
+					</tr>
+				@endif
 				</tbody>
 			</table>
+
+			{{ $categories->links() }}
 		</div>
 	</div>
 
-@stop
+@endcomponent

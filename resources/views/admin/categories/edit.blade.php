@@ -1,30 +1,35 @@
 @extends('layouts.app')
 
-@section('content')
-	
-	@include('admin.includes.errors')
+@component('admin.component.content')
 
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<b>Edit Category: {{ $category->name }}</b>
-		</div>
+	<div class="card">
+		<h5 class="card-header">
+			<b>Editar Categoria {{ $category->name }}</b>
+		</h5>
+		<div class="card-body">
+			{{ Form::open(['route' => ['categories.update',  $category->id], 'method' => 'PUT']) }}
 
-		<div class="panel-body">
-			<form class="" action="{{ route('category.update', ['id' => $category->id]) }}" method="POST">
-				{{ csrf_field() }}
+			<div class="form-group row">
+				{{ Form::label('name', __('Nombre de la Categoria'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
 
-				<div class="form-group">
-					<label for="name">Name</label>
-					<input type="text" class="form-control" name="name" placeholder="Name" value="{{ $category->name }}">
+				<div class="col-md-6">
+					{{ Form::text('name', old('name', $category->name), ['class' => $errors->has('name') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
+
+					@if ($errors->has('name'))
+						<span class="invalid-feedback">
+			             <strong>{{ $errors->first('name') }}</strong>
+			         </span>
+					@endif
 				</div>
+			</div>
 
-				<div class="form-group">
-					<div class="text-center">
-						<button class="btn btn-success" type="submit">Update category!</button>
-					</div>
+			<div class="form-group row mb-0">
+				<div class="col-md-6 offset-md-4">
+					{{ Form::submit(__('Editar Categoria'), ['class' => 'btn btn-primary']) }}
 				</div>
-			</form>
+			</div>
+			{{ Form::close() }}
 		</div>
 	</div>
 
-@stop
+@endcomponent

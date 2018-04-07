@@ -10,155 +10,116 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/toastr.min.css') }}" rel="stylesheet">
 
+    <style>
+        body {
+            background-color: #F1F3F5;
+        }
+
+        .card {
+            border: none !important;
+            box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%, 0.2);
+        }
+
+        .card-header {
+            border-bottom: none !important;
+        }
+
+        .app-list-group-item {
+            position: relative;
+            display: block;
+            padding: 0.55rem 0;
+            margin-bottom: -1px;
+            color: #495057;
+            font-weight: bold;
+        }
+
+        .app-list-group-item:hover,
+        .app-list-group-item:focus {
+            color: #212121;
+            text-decoration: none;
+            background-color: transparent;
+        }
+        .app-active {
+            z-index: 2;
+            color: #2962FF;
+            border: none;
+        }
+    </style>
+
     @yield('styles')
 </head>
 <body>
-    <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
+<div id="app">
+    <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url('/') }}">
+                {{ config('app.name', 'Laravel') }}
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                    <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- Left Side Of Navbar -->
+                <ul class="navbar-nav mr-auto">
 
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
-                    </a>
-                </div>
+                </ul>
 
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        &nbsp;
-                    </ul>
+                <!-- Right Side Of Navbar -->
+                <ul class="navbar-nav ml-auto">
+                    <!-- Authentication Links -->
+                    @guest
+                        <li><a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar sesión') }}</a></li>
+                        <li><a class="nav-link" href="{{ route('register') }}">{{ __('Registro') }}</a></li>
+                    @else
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <img class="rounded-circle" src="{{ optional(auth()->user()->profile)->avatar }}" height="32" width="32">
+                                {{ Auth::user()->name }} <span class="caret"></span>
+                            </a>
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
-                        @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    {{ __('Cerrar sesión') }}
                                 </a>
 
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <!-- Mi panel de control -->
-        <div class="container">
-            <div class="row">
-                <!-- Verifico que haya una seccion activa para poder mostrar el menu solo a los autenticados -->
-                @if(Auth::check())
-                    <div class="col-lg-4">
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <a href="{{ route('home') }}">Home</a>
-                            </li>
-                            
-                            <li class="list-group-item">
-                                <a href="{{ route('categories') }}">All Categories</a>
-                            </li>
-
-                            <li class="list-group-item">
-                                <a href="{{ route('category.create') }}">Create New Category</a>
-                            </li>
-
-                            <li class="list-group-item">
-                                <a href="{{ route('tags') }}">All Tags</a>
-                            </li>
-
-                            <li class="list-group-item">
-                                <a href="{{ route('tag.create') }}">Create New Tag</a>
-                            </li>
-
-                            <li class="list-group-item">
-                                <a href="{{ route('posts') }}">All Posts</a>
-                            </li>
-
-                            <li class="list-group-item">
-                                <a href="{{ route('posts.trashed') }}">All Trashed Posts</a>
-                            </li>
-
-                            <li class="list-group-item">
-                                <a href="{{ route('post.create') }}">Create New Post</a>
-                            </li>
-
-                            @if(Auth::user()->admin)
-                                <li class="list-group-item">
-                                    <a href="{{ route('users') }}">All Users</a>
-                                </li>
-
-                                <li class="list-group-item">
-                                    <a href="{{ route('user.create') }}">Create New User</a>
-                                </li>
-                            @endif
-
-                            <li class="list-group-item">
-                                <a href="{{ route('user.profile') }}">My Profile</a>
-                            </li>
-
-                            @if(Auth::user()->admin)
-                                <li class="list-group-item">
-                                    <a href="{{ route('settings') }}">Settings</a>
-                                </li>
-                            @endif
-                        </ul>
-                    </div>
-                @endif
-
-                <div class="col-lg-8">
-
-                    @yield('content')
-                
-                </div>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
+                    @endguest
+                </ul>
             </div>
         </div>
-    </div>
+    </nav>
 
-    <!-- Scripts -->
+    <main class="py-4">
+        @yield('content')
+    </main>
+</div>
+
+<!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/toastr.min.js') }}"></script>
-    
-    @yield('scripts')
-
     <script type="text/javascript">
         @if(Session::has('success'))
-            toastr.success("{{ Session::get('success') }}")
+            toastr.success("{{ Session::get('success') }}");
         @endif
 
         @if(Session::has('info'))
-            toastr.info("{{ Session::get('info') }}")
+            toastr.info("{{ Session::get('info') }}");
         @endif
     </script>
+    @yield('scripts')
 </body>
 </html>

@@ -7,38 +7,43 @@ use Illuminate\Database\Eloquent\softDeletes;
 
 class Post extends Model
 {
-	//Usado para indicar la fecha en que fue eliminado un post
 	use softDeletes;
 
 	protected  $fillable = [
-		'title', 'content', 'featured', 'category_id', 'slug', 'user_id'
+		'title', 'content', 'thumbnails', 'category_id', 'slug', 'user_id', 'publish_at'
 	];
 
 	protected $dates = ['deleted_at'];
 
-	/*Este metodo indica la relacion que existe entre Category y Post
-	  es por eso que aparece el metodo: 'public function category ()' en
-	  este modelo de posts. _Un post puede tener una unica categoria.		
-	*/
-    public function category ()
+
+    public function setTitleAttribute($title)
     {
-		return $this->belongsTo('App\Category');
+        $this->attributes['title'] = strtolower($title);
+        $this->attributes['slug'] = str_slug($title, '-');
     }
 
-    public function tags ()
+    public function getTitleAttribute($title)
     {
-		return $this->belongsToMany('App\Tag');
+        return ucwords($title);
+    }
+
+    public function getThumbnailsAttribute($thumbnails)
+    {
+    	return asset('storage/'.$thumbnails);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
     }
 
     public function user()
     {
-    	return $this->belongsTo('App\User');
-    }
-
-    //Accessors: esto generará un link con la imagen solicitada; algo como esto:
-    //http://localhost/projects/Blog/public/uploads/posts/1514922555Plum SG_70.jpg
-    public function getFeaturedAttribute($featured)
-    {
-    	return asset($featured);
+        return $this->belongsTo(User::class);
     }
 }

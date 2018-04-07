@@ -1,43 +1,49 @@
 @extends('layouts.app')
 
-@section('content')
-	
-	<div class="panel panel-default">
-		<div class="panel-heading"><b>Published Tags</b></div>
 
-		<div class="panel-body">
+@component('admin.component.content')
+
+	<div class="card">
+		<h5 class="card-header">
+			<b>Tag Publicados</b>
+			<a class="btn btn-outline-secondary" href="{{ route('tags.create') }}"> Crear Tags</a>
+		</h5>
+		<div class="card-body">
 			<table class="table table-hover">
 				<thead>
-					<th>Tag name</th>
-					<th>Editing</th>
-					<th>Deleting</th>
+				<th>Tag</th>
+				<th>Acciones</th>
 				</thead>
 
 				<tbody>
-					@if($tags->count() > 0)
+				@if($tags->count() > 0)
 
-						@foreach($tags as $tag)
-							<tr>
-								<td>{{ $tag->tag }}</td>
-								
-								<td>
-									<a href="{{ route('tag.edit', ['id' => $tag->id]) }}" class="btn btn-info btn-sm">Edit</a>
-								</td>
-
-								<td>
-									<a href="{{ route('tag.delete', ['id' => $tag->id]) }}" class="btn btn-danger btn-sm">Delete</a>
-								</td>
-							</tr>
-						@endforeach
-
-					@else
+					@foreach($tags as $tag)
 						<tr>
-							<th colspan="5" class="text-center">No Tags Yet.</th>
+							<td>{{ $tag->tag }}</td>
+
+							<td>
+								<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
+								<div class="dropdown-menu">
+									<a href="{{ route('tags.edit', ['id' => $tag->id]) }}" class="dropdown-item">Editar</a>
+									{{ Form::open(['route' => ['tags.destroy', $tag->id], 'method' => 'DELETE']) }}
+									{{ Form::submit(__('Eliminar'), ['class' => 'dropdown-item']) }}
+									{{ Form::close() }}
+								</div>
+							</td>
 						</tr>
-					@endif
+					@endforeach
+
+				@else
+					<tr>
+						<th colspan="5" class="text-center">No Tags Yet.</th>
+					</tr>
+				@endif
 				</tbody>
 			</table>
+
+			{{ $tags->links() }}
 		</div>
 	</div>
 
-@stop
+@endcomponent

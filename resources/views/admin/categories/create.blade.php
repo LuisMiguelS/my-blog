@@ -1,30 +1,36 @@
 @extends('layouts.app')
 
-@section('content')
-	
-	@include('admin.includes.errors')
+@component('admin.component.content')
 
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<b>Create a new Category</b>
-		</div>
+		<div class="card">
+			<h5 class="card-header">
+				<b>Crear Una Nueva Categoria</b>
+			</h5>
+			<div class="card-body">
+				{{ Form::open(['route' => 'categories.store', 'method' => 'POST']) }}
 
-		<div class="panel-body">
-			<form class="" action="{{ route('category.store') }}" method="POST">
-				{{ csrf_field() }}
+				<div class="form-group row">
+					{{ Form::label('name', __('Categoria'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
 
-				<div class="form-group">
-					<label for="name">Name</label>
-					<input type="text" class="form-control" name="name" placeholder="Name">
-				</div>
+					<div class="col-md-6">
+						{{ Form::text('name', old('name'), ['class' => $errors->has('name') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
 
-				<div class="form-group">
-					<div class="text-center">
-						<button class="btn btn-success" type="submit">Store category!</button>
+						@if ($errors->has('name'))
+							<span class="invalid-feedback">
+				             <strong>{{ $errors->first('name') }}</strong>
+				         </span>
+						@endif
 					</div>
 				</div>
-			</form>
-		</div>
-	</div>
 
-@stop
+
+				<div class="form-group row mb-0">
+					<div class="col-md-6 offset-md-4">
+						{{ Form::submit(__('Crear Categoria'), ['class' => 'btn btn-primary']) }}
+					</div>
+				</div>
+				{{ Form::close() }}
+			</div>
+		</div>
+
+@endcomponent

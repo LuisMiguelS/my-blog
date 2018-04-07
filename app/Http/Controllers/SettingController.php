@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Session;
 use App\Setting;
 
-class SettingsController extends Controller
+class SettingController extends Controller
 {
 	public function __construct()
 	{

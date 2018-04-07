@@ -14,12 +14,31 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(App\User::class, function (Faker $faker) {
-    static $password;
-
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
+        'password' => 'secret',
         'remember_token' => str_random(10),
+    ];
+});
+
+
+$factory->define(App\Category::class, function (Faker $faker) {
+    return [
+        'name' => $faker->name,
+    ];
+});
+
+$factory->define(App\Post::class, function (Faker $faker) {
+    $user = \App\User::all()->random();
+    $category = \App\Category::all()->random();
+
+    return [
+        'thumbnails' => 'imagen.png',
+        'title' => $title = 'Title Post '. $faker->randomDigit,
+        'slug' =>  str_slug($title, '-'),
+        'content' => 'Contenido del Post',
+        'user_id' => $user->id,
+        'category_id' => $category->id
     ];
 });

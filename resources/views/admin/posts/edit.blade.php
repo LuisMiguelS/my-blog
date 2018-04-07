@@ -1,88 +1,120 @@
 @extends('layouts.app')
 
-@section('content')
-	
-	@include('admin.includes.errors')
+@component('admin.component.post')
 
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<b>Edit Post: {{ $post->title }}</b>
-		</div>
+	{{ Form::open(['route' => ['posts.update', $post->id], 'method' => 'PUT', 'files' => true]) }}
 
-		<div class="panel-body">
-			<form class="" action="{{ route('post.update', ['id' => $post->id]) }}" method="POST" enctype="multipart/form-data">
-				{{ csrf_field() }}
+	<div class="row">
+		<div class="col-md-8">
 
-				<div class="form-group">
-					<label for="title">Title</label>
-					<input type="text" class="form-control" name="title" placeholder="title" value="{{ $post->title }}">
-				</div>
+			<div class="card">
+				<div class="card-body">
+					<div class="form-group">
+						{{ Form::label('title', __('Titulo'), ['class' => '']) }}
 
-				<div class="form-group">
-					<label for="featured">Featured new image</label>
-					<input type="file" class="form-control" name="featured" placeholder="Featured image">
-				</div>
+						{{ Form::text('title', old('title', $post->title), ['class' => $errors->has('title') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
 
-				<div class="form-group">
-					<label for="category">Select a new Category</label>
-					<select class="form-control" name="category_id">
-						@foreach($categories as $category)
-							<option value="{{ $category->id }}"
-
-								@if($post->category->id == $category->id)
-									selected=""
-								@endif
-
-							>{{ $category->name }}</option>
-						@endforeach
-					</select>
-				</div>
-
-				<div class="form-group">
-					<label for="tags">Select Tags</label>
-					@foreach($tags as $tag)
-						<div class="checkbox">
-					    	<label><input type="checkbox" name="tags[]" value="{{ $tag->id }}"
-
-					    		@foreach($post->tags as $t)
-					    			@if($tag->id == $t->id)
-					    				checked="" 
-					    			@endif
-					    		@endforeach
-
-					    	>{{ $tag->tag }}</label>
-					  	</div>
-				  	@endforeach
-				</div>
-
-				<div class="form-group">
-					<label for="content">Content</label>
-					<textarea class="form-control" name="content" id="content" cols="5" rows="5">{!! $post->content !!}</textarea>
-				</div>
-
-				<div class="form-group">
-					<div class="text-center">
-						<button class="btn btn-success" type="submit">Update post!</button>
+						@if ($errors->has('title'))
+							<span class="invalid-feedback">
+			             			<strong>{{ $errors->first('title') }}</strong>
+			         			</span>
+						@endif
 					</div>
 				</div>
-			</form>
+			</div>
+
+			<br>
+
+			<div class="card">
+				<div class="card-body">
+					<div class="form-group">
+
+						{{ Form::textarea('content', old('content', $post->content), ['class' => $errors->has('content') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
+
+						@if ($errors->has('content'))
+							<span class="invalid-feedback">
+			             			<strong>{{ $errors->first('content') }}</strong>
+			         			</span>
+						@endif
+					</div>
+
+					<div class="form-group">
+						{{ Form::submit(__('Editar Post'), ['class' => 'btn btn-primary']) }}
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+		<div class="col-md-4">
+
+			<div class="card">
+				<div class="card-body">
+					<div class="form-group">
+						{{ Form::label('thumbnails', __('Imagen del Post'), ['class' => '']) }}
+
+						<img src=" {{ $post->thumbnails }} " class="img-thumbnail">
+
+						<br><br>
+
+						{{ Form::file('thumbnails', ['class' => $errors->has('thumbnails') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
+
+						@if ($errors->has('thumbnails'))
+							<span class="invalid-feedback">
+								<strong>{{ $errors->first('thumbnails') }}</strong>
+							</span>
+						@endif
+					</div>
+				</div>
+			</div>
+
+			<br>
+
+			<div class="card">
+				<div class="card-body">
+					<div class="form-group">
+						{{ Form::label('category_id', __('Categoria'), ['class' => '']) }}
+
+						{{ Form::select('category_id', $categories, old('category_id', $post->category_id),  ['class' => $errors->has('category_id') ? 'form-control is-invalid' : 'form-control', 'required' => true] ) }}
+
+						@if ($errors->has('category_id'))
+							<span class="invalid-feedback">
+							<strong>{{ $errors->first('category_id') }}</strong>
+						</span>
+						@endif
+					</div>
+				</div>
+			</div>
+
+			<br>
+
+			<div class="card">
+				<div class="card-body">
+					<div class="form-group">
+						{{ Form::label('tags', __('Tags'), ['class' => '']) }}
+						{{ Form::text('tags', old('tags', $tags), ['class' => $errors->has('') ? 'form-control is-invalid' : 'form-control', 'data-role' => 'tagsinput', 'required' => true]) }}
+
+						@if ($errors->has('tags'))
+							<span class="invalid-feedback">
+								<strong>{{ $errors->first('tags') }}</strong>
+							</span>
+						@endif
+
+					</div>
+				</div>
+			</div>
+
 		</div>
 	</div>
 
-@stop
+	{{ Form::close() }}
+
+@endcomponent
 
 @section('styles')
-	<!-- include summernote css/js-->
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
-@stop
+	<link href="{{ asset('css/tagsinput.css') }}" rel="stylesheet">
+@endsection
 
 @section('scripts')
-	<!-- include summernote css/js-->
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
-
-    <script type="text/javascript">
-		$(document).ready(function() {
-	      $('#content').summernote();
-	    });
-	</script>
-@stop
+	<script src="{{ asset('js/tagsinput.js') }}"></script>
+@endsection
