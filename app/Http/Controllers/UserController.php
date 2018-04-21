@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserEditRequest;
 use App\User;
-use Spatie\Permission\Models\Role;
+use App\Http\Requests\UserEditRequest;
 use App\Http\Requests\UserCreateRequest;
 
 class UserController extends Controller
@@ -23,14 +22,6 @@ class UserController extends Controller
     {
         $user = User::create($request->validated());
 
-        $roles = $request['roles'];
-
-        if (isset($roles)) {
-            foreach ($roles as $role) {
-                $role_r = Role::where('id', '=', $role)->firstOrFail();
-                $user->assignRole($role_r);
-            }
-        }
         return back()->with(['success'=> "El usuario: {$user->name} ha sido agregado exitosamente."]);
     }
 

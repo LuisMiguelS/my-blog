@@ -1,5 +1,6 @@
 <?php
 
+use App\Setting;
 use Illuminate\Database\Seeder;
 
 class SettingsTableSeeder extends Seeder
@@ -11,11 +12,13 @@ class SettingsTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\Setting::create([
-        	'site_name' => "Laravel's Blog",
+        Setting::truncate();
+
+        Setting::create([
+        	'site_name' => "Blog",
         	'Address' => 'Dom. Rep.',
-        	'contact_number' => '000-897-8790',
-        	'contact_email' => 'info@laravel_blog.com'
+        	'contact_number' => '999-999-999',
+        	'contact_email' => 'blog@laravel.com'
         ]);
     }
 }

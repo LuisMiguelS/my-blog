@@ -2,24 +2,34 @@
 
 namespace App;
 
+use App\Traits\FindSlug;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
+use App\Presenters\Post\UrlPresenter;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\softDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
-	use softDeletes;
+	use SoftDeletes, HasSlug, FindSlug;
+
+	const PUBLISHED = 'PUBLISHED';
+	const DRAFT = 'DRAFT';
+	const PENDING = 'PENDING';
 
 	protected  $fillable = [
-		'title', 'content', 'thumbnails', 'category_id', 'slug', 'user_id', 'publish_at'
+		'user_id', 'category_id', 'title', 'seo_title', 'excerpt', 'body', 'slug', 'image', 'meta_description', 'meta_keywords', 'status'
 	];
 
 	protected $dates = ['deleted_at'];
 
+    protected $appends = [
+        'url'
+    ];
 
     public function setTitleAttribute($title)
     {
-        $this->attributes['title'] = strtolower($title);
-        $this->attributes['slug'] = str_slug($title, '-');
+        $this->attributes['title'] = strtolower($title);;
     }
 
     public function getTitleAttribute($title)
@@ -27,9 +37,32 @@ class Post extends Model
         return ucwords($title);
     }
 
-    public function getThumbnailsAttribute($thumbnails)
+    public function getImageAttribute($image)
     {
-    	return asset('storage/'.$thumbnails);
+        if (is_null($image)){
+            return asset('recursos/imagenes/post-default.png');
+        }
+    	return asset('storage/'.$image);
+    }
+
+    public function getUrlAttribute()
+    {
+        return new UrlPresenter($this);
+    }
+
+    /**
+     * Get the options for generating the slug.
+     */
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('title')
+            ->saveSlugsTo('slug');
+    }
+
+    public function isPublished()
+    {
+        return $this->status === Post::PUBLISHED;
     }
 
     public function category()

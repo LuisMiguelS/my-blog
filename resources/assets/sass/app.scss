@@ -12,3 +12,37 @@
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
+
+// Aplication Styles
+.card {
+  margin-bottom: 20px !important;
+  border: none !important;
+  box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%, 0.2);
+}
+
+.card-header {
+  border-bottom: none !important;
+}
+
+// Sidie Nav
+.app-list-group-item {
+  position: relative;
+  display: block;
+  padding: 0.55rem 0;
+  margin-bottom: -1px;
+  color: #495057;
+  font-weight: bold;
+}
+
+.app-list-group-item:hover,
+.app-list-group-item:focus {
+  color: #212121;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+.app-active {
+  z-index: 2;
+  color: #2962FF;
+  border: none;
+}

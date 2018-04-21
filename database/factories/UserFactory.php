@@ -1,5 +1,6 @@
 <?php
 
+use App\Post;
 use Faker\Generator as Faker;
 
 /*
@@ -22,23 +23,31 @@ $factory->define(App\User::class, function (Faker $faker) {
     ];
 });
 
+$factory->state(App\User::class, App\User::ADMIN_ROLE, ['role' => \App\User::ADMIN_ROLE]);
 
 $factory->define(App\Category::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
+        'name' => $faker->unique()->word,
     ];
 });
 
-$factory->define(App\Post::class, function (Faker $faker) {
-    $user = \App\User::all()->random();
-    $category = \App\Category::all()->random();
+$factory->define(App\Tag::class, function (Faker $faker) {
+    return [
+        'tag' => $faker->unique()->word,
+    ];
+});
+
+$factory->define(Post::class, function (Faker $faker) {
 
     return [
-        'thumbnails' => 'imagen.png',
-        'title' => $title = 'Title Post '. $faker->randomDigit,
-        'slug' =>  str_slug($title, '-'),
-        'content' => 'Contenido del Post',
-        'user_id' => $user->id,
-        'category_id' => $category->id
+        'user_id' => factory(\App\User::class)->create(),
+        'category_id' => factory(\App\Category::class)->create(),
+        'title' => 'New Laravel Post Title '. $faker->unique()->randomNumber,
+        'seo_title' => $faker->paragraph(1),
+        'excerpt' => $faker->paragraph(1),
+        'body' => $faker->paragraph,
+        'meta_description' => $faker->paragraph(1),
+        'meta_keywords' => $faker->paragraph(1),
+        'status' => $faker->randomElement([Post::PUBLISHED, Post::DRAFT, Post::PENDING]),
     ];
 });

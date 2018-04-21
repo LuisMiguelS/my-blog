@@ -14,45 +14,8 @@
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/toastr.min.css') }}" rel="stylesheet">
 
-    <style>
-        body {
-            background-color: #F1F3F5;
-        }
-
-        .card {
-            border: none !important;
-            box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%, 0.2);
-        }
-
-        .card-header {
-            border-bottom: none !important;
-        }
-
-        .app-list-group-item {
-            position: relative;
-            display: block;
-            padding: 0.55rem 0;
-            margin-bottom: -1px;
-            color: #495057;
-            font-weight: bold;
-        }
-
-        .app-list-group-item:hover,
-        .app-list-group-item:focus {
-            color: #212121;
-            text-decoration: none;
-            background-color: transparent;
-        }
-        .app-active {
-            z-index: 2;
-            color: #2962FF;
-            border: none;
-        }
-    </style>
-
-    @yield('styles')
+    @yield('css')
 </head>
 <body>
 <div id="app">
@@ -110,16 +73,6 @@
 
 <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/toastr.min.js') }}"></script>
-    <script type="text/javascript">
-        @if(Session::has('success'))
-            toastr.success("{{ Session::get('success') }}");
-        @endif
-
-        @if(Session::has('info'))
-            toastr.info("{{ Session::get('info') }}");
-        @endif
-    </script>
-    @yield('scripts')
+    @yield('js')
 </body>
 </html>

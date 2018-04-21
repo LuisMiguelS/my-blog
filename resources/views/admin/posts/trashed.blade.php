@@ -1,51 +1,56 @@
 @extends('layouts.app')
 
-@section('content')
-	
-	<div class="panel panel-default">
-		<div class="panel-heading"><b>Trashed Posts</b></div>
+@component('admin.component.content')
 
-		<div class="panel-body">
-			<table class="table table-hover">
-				<thead>
-					<th>Image</th>
-					<th>Title</th>
-					<th>Editing</th>
-					<th>Restore</th>
-					<th>Kill</th>
-				</thead>
+	<div class="card">
+	<h5 class="card-header">
+		<b>Posts Eliminados</b>
+		<a class="btn btn-primary" href="{{ route('posts.create') }}">Crear Post</a>
+		<a class="btn btn-outline-primary" href="{{ route('posts.index') }}">
+			Publicaciones
+		</a>
+	</h5>
+	<div class="card-body">
+		<table class="table table-hover">
+			<thead>
+			<th>Imagen</th>
+			<th>Titulo</th>
+			<th>Autor</th>
+			<th>Acciones</th>
+			</thead>
 
-				<tbody>
-					@if($posts->count() > 0)
+			<tbody>
+			@if($trashs->count() > 0)
 
-						@foreach($posts as $post)
-							<tr>
-								<td><img src="{{ $post->featured }}" alt="{{ $post->title }}" width="200px"></td>
-								
-								<td>{{ $post->title }}</td>
-								
-								<td>
-									<a href="{{ route('post.edit', ['id' => $post->id]) }}" class="btn btn-info btn-sm">Edit</a>
-								</td>
+				@foreach($trashs as $trash)
+					<tr>
+						<td><img src="{{ $trash->featured }}" alt="{{ $trash->title }}" width="200px"></td>
 
-								<td>
-									<a href="{{ route('post.restore', ['id' => $post->id]) }}" class="btn btn-success btn-sm">Restore</a>
-								</td>
+						<td>{{ $trash->title }}</td>
 
-								<td>
-									<a href="{{ route('post.kill', ['id' => $post->id]) }}" class="btn btn-danger btn-sm">Kill</a>
-								</td>
-							</tr>
-						@endforeach
+						<td>
+							<a href="{{ route('post.edit', ['id' => $trash->id]) }}" class="btn btn-info btn-sm">Edit</a>
+						</td>
 
-					@else
-						<tr>
-							<th colspan="5" class="text-center">No Trashed Post Yet.</th>
-						</tr>
-					@endif
-				</tbody>
-			</table>
-		</div>
+						<td>
+							<a href="{{ route('post.restore', ['id' => $trash->id]) }}" class="btn btn-success btn-sm">Restore</a>
+						</td>
+
+						<td>
+							<a href="{{ route('post.kill', ['id' => $trash->id]) }}" class="btn btn-danger btn-sm">Kill</a>
+						</td>
+					</tr>
+				@endforeach
+
+			@else
+				<tr>
+					<th colspan="5" class="text-center">No hay publicaciones en la papelera</th>
+				</tr>
+			@endif
+			</tbody>
+		</table>
+		{{ $trashs->links() }}
 	</div>
+</div>
 
-@stop
+@endcomponent

@@ -2,15 +2,16 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Traits\HasRoles;
+use App\Presenters\User\UrlPresenter;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasRoles, SoftDeletes;
+    use Notifiable, SoftDeletes;
 
     const ADMIN_ROLE = "admin";
     const AUTHOR_ROLE = "autor";
@@ -34,6 +35,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    protected $appends = [
+        'url'
+    ];
+
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = Hash::make($password);
@@ -47,6 +52,21 @@ class User extends Authenticatable
     public function getNameAttribute($name)
     {
         return ucwords($name);
+    }
+
+    public function getUrlAttribute()
+    {
+        return new UrlPresenter($this);
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === User::ADMIN_ROLE;
+    }
+
+    public function owns(Model $model, $foreignKey = 'user_id')
+    {
+        return $this->id === $model->$foreignKey;
     }
 
     public function profile()

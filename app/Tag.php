@@ -2,11 +2,17 @@
 
 namespace App;
 
+use App\Traits\FindSlug;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tag extends Model
 {
-	protected $fillable = ['tag'];
+    use softDeletes, HasSlug, FindSlug;
+
+	protected $fillable = ['tag', 'slug'];
 
     public function setNameAttribute($tag)
     {
@@ -21,5 +27,15 @@ class Tag extends Model
     public function posts()
     {
     	return $this->belongsToMany(Post::class);
+    }
+
+    /**
+     * Get the options for generating the slug.
+     */
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('tag')
+            ->saveSlugsTo('slug');
     }
 }

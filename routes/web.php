@@ -32,7 +32,7 @@ Route::get('search', [
 	'as' => 'search'
 ]);*/
 
-Route::prefix('admin')->middleware(['auth','admin'])->group(function(){
+Route::prefix('admin')->middleware(['auth'])->group(function(){
 
     Route::get('dashboard', 'DashboardController@index')
         ->name('dashboard.index')
@@ -41,6 +41,8 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(function(){
     /*
      * RUTAS PARA EL MODULO DE LOS POSTS*
      */
+    Route::get('posts/draft', 'PostController@draft')->name('posts.draft');
+    Route::get('posts/trash', 'PostController@trashed')->name('posts.trashed');
     Route::resource('posts', 'PostController')->except('show');
 
     /*

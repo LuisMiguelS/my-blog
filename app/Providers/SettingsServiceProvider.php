@@ -16,7 +16,7 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (Schema::hasTable('settings')) {
+       /* if (Schema::hasTable('settings')) {
             $settings = Setting::first();
 
             if (isset($settings->site_name)) {
@@ -28,6 +28,6 @@ class SettingsServiceProvider extends ServiceProvider
                 'email' => $settings->contact_email,
                 'address' => $settings->address,
             ]);
-        }
+        }*/
     }
 }

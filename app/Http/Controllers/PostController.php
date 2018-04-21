@@ -5,79 +5,92 @@ namespace App\Http\Controllers;
 use App\Post;
 use App\Tag;
 use App\Category;
-use App\Http\Requests\PostEditRequest;
-use App\Http\Requests\PostCreateRequest;
+use App\Http\Requests\UpdatePostRequest;
+use App\Http\Requests\CreatePostRequest;
+use App\User;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function index()
     {
-        return view('admin.posts.index', ['posts' => Post::paginate(15)]);
+        $this->authorize('view', Post::class);
+
+        $posts = Post::with('user')
+            ->where('status', Post::PUBLISHED)
+            ->unless(auth()->user()->isAdmin(), function($q) {
+                $q->where('user_id', auth()->id());
+            })->paginate(15);
+
+        $drafts = Post::where('status', Post::DRAFT)->where('user_id', auth()->id())->count();
+
+        return view('admin.posts.index', compact('posts', 'drafts'));
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function create()
     {
-        $categories = Category::select('name','id')->get()->pluck('name','id');
-        return view('admin.posts.create', compact('categories'));
+        $this->authorize('create', Post::class);
+
+        return view('admin.posts.create', [
+            'categories' => Category::select('name','id')->get()->pluck('name','id'),
+            'tags' => Tag::select('tag','id')->get()->pluck('tag','id'),
+        ]);
     }
 
-    public function store(PostCreateRequest $request)
+    public function store(CreatePostRequest $request)
     {
-        if (!request()->tags){
-            return back()->with(['info' => "Debes indicar al menos 1 tag"]);
+        $campos = $request->validated();
+
+        if($request->hasFile('image')) {
+            $campos['image'] = $request->file('image')->store('image', 'public');
         }
 
-        $campos = $request->validated();
-        $campos['thumbnails'] = request()->file('thumbnails')->store('thumbnails', 'public');
+        $post = $request->user()->posts()->create($campos);
 
-        $post = auth()->user()->posts()->create($campos);
-
-        $tags = explode(',', request()->tags);
-
-        foreach ($tags as $value) {
-            $tag = Tag::firstOrCreate([
-                'tag' => strtolower($value)
-            ], [
-                'tag' => $value
-            ]);
-
-            $post->tags()->syncWithoutDetaching($tag->id);
+        if (isset($request->tags)){
+            $post->tags()->syncWithoutDetaching($request->tags);
         }
 
         return back()->with(['success' => "Post: {$post->tile} created succesfully"]);
     }
 
+    /**
+     * @param \App\Post $post
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function edit(Post $post)
     {
-        $categories = Category::select('name','id')->get()->pluck('name','id');
-        $tags = Tag::select('tag')->get()->pluck('tag')->implode(',');
-        return view('admin.posts.edit', compact('post', 'categories', 'tags'));
+        $this->authorize('update', $post);
+
+        return view('admin.posts.edit', [
+            'post' => $post,
+            'categories' => Category::select('name','id')->get()->pluck('name','id'),
+            'tags' => Tag::select('tag','id')->get()->pluck('tag','id'),
+        ]);
     }
 
-    public function update(PostEditRequest $request, Post $post)
+    public function update(UpdatePostRequest $request, Post $post)
     {
-        if (!request()->tags){
-            return back()->with(['info' => "Debes indicar al menos 1 tag"]);
+        $campos = $request->validated();
+
+        if(request()->hasFile('image')) {
+            Storage::delete($post->image);
+            $campos['image'] = $request->file('image')->store('image', 'public');
         }
 
-        if(request()->hasFile('thumbnails')) {
-            Storage::delete($post->thumbnails);
-            $post->thumbnails = request()->file('thumbnails')->store('thumbnails', 'public');
-        }
+        $post->fill($campos)->save();
 
-        $post->fill($request->validated())->save();
-
-        $tags = explode(',', request()->tags);
-
-        foreach ($tags as $value) {
-            $tag = Tag::firstOrCreate([
-                'tag' => strtolower($value)
-            ], [
-                'tag' => $value
-            ]);
-
-            $post->tags()->syncWithoutDetaching($tag->id);
+        if (isset($request->tags)){
+            $post->tags()->syncWithoutDetaching($request->tags);
         }
 
         return back()->with(['success' => "La publicación: {$post->title}  se ha actualizado con éxito."]);
@@ -95,28 +108,38 @@ class PostController extends Controller
         return back()->with(['success' => 'The post was just trashed.']);
     }
 
-    public function kill($id)
+    public function draft()
     {
-//        $post = Post::withTrashed()->where('id', $id)->first();
-//        $post->forceDelete();
-//
-//        Session::flash('success', 'Post deleted permanently.');
-//
-//        return route('posts.trashed');
+        $drafts = Post::with('user')
+            ->where('status', Post::DRAFT)
+            ->where('user_id', auth()->id())
+            ->paginate(15);
+
+        $posts = Post::where('status', Post::PUBLISHED)->unless(auth()->user()->isAdmin(), function($q) {
+            $q->where('user_id', auth()->id());
+        })->count();
+
+        return view('admin.posts.draft', compact('posts', 'drafts'));
+    }
+
+    public function kill(Post $post)
+    {
+        $post->forceDelete();
+
+        return back()->with(['success' => "La publicación: {$post->title}  fue borrada de forma permanente."]);
     }
 
     public function trashed()
     {
-        $posts = Post::onlyTrashed()->get();
+        $trashs = Post::with('user')->onlyTrashed()->paginate(15);
 
-        return view('admin.posts.trashed', compact('posts'));
+        return view('admin.posts.trashed', compact('trashs'));
     }
 
-    public function restore($id)
+    public function restore(Post $post)
     {
-        $post = Post::withTrashed()->where('id', $id)->first();
         $post->restore();
 
-        return back()->with(['success' => 'The post has been restored successfully.']);
+        return back()->with(['success' => 'La publicación: {$post->title}  fue restaurada correctamente.']);
     }
 }

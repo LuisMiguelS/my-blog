@@ -15,13 +15,17 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('thumbnails');
-            $table->string('title');
-            $table->string('slug')->unique();
-            $table->text('content');
             $table->integer('user_id')->unsigned();
             $table->integer('category_id')->unsigned();
-            $table->timestamp('publish_at')->nullable();
+            $table->string('title');
+            $table->string('seo_title')->nullable();
+            $table->text('excerpt');
+            $table->text('body');
+            $table->string('image')->nullable();
+            $table->string('slug')->unique();
+            $table->text('meta_description')->nullable();
+            $table->text('meta_keywords')->nullable();
+            $table->enum('status', ['PUBLISHED', 'DRAFT', 'PENDING'])->default('DRAFT');
             $table->timestamps();
             $table->softDeletes();
 

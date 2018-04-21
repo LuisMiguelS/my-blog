@@ -62,7 +62,7 @@
     <div class="content">
         <div class="title m-b-md">
             401<br>
-            ACCESO NO AUTORIZADO
+            NO AUTORIZADO
         </div>
     </div>
 </div>

@@ -17,6 +17,10 @@ class Profile extends Model
 
     public function getAvatarAttribute($avatar)
     {
-        return asset('storage/'.$avatar);
+        if (is_null($avatar)) {
+            return asset('recursos/imagenes/profile-default.png');
+        }
+
+        return asset('storage/'.$avatar );
     }
 }

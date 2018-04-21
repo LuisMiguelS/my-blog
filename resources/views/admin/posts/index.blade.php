@@ -4,16 +4,22 @@
 
 	<div class="card">
 		<h5 class="card-header">
-			<b>Post Publicados</b>
+			<b>Posts Publicados</b>
 			<a class="btn btn-primary" href="{{ route('posts.create') }}">Crear Post</a>
-			<a class="btn btn-secondary" href="">Borrador</a>
-			<a class="btn btn-outline-danger" href="">Post Eliminados</a>
+			<a class="btn btn-outline-primary" href="{{ route('posts.draft') }}">
+				Borradores
+                @if($drafts > 0)
+                    ({{$drafts}})
+                @endif
+            </a>
+			<a class="btn btn-outline-danger" href="{{ route('posts.trashed') }}">Post Eliminados</a>
 		</h5>
 		<div class="card-body">
 			<table class="table table-hover">
 				<thead>
-				<th>Image</th>
-				<th>Title</th>
+				<th>Imagen</th>
+				<th>Titulo</th>
+				<th>Autor</th>
 				<th>Acciones</th>
 				</thead>
 
@@ -22,17 +28,26 @@
 
 					@foreach($posts as $post)
 						<tr>
-							<td><img class="img-thumbnail" src="{{ $post->thumbnails }}" width="150px"></td>
+							<td><img class="img-thumbnail" src="{{ $post->image }}" width="100px" height="100"></td>
 
 							<td>{{ $post->title }}</td>
 
+							<td>{{ $post->user->name }}</td>
+
 							<td>
-								<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
+								<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									Acciones
+								</button>
 								<div class="dropdown-menu">
-									<a  class="dropdown-item" href="{{ route('posts.edit', ['id' => $post->id]) }}" >Editar</a>
-									{{ Form::open(['route' => ['posts.destroy', $post->id], 'method' => 'DELETE']) }}
-									{{ Form::submit(__('Eliminar'), ['class' => 'dropdown-item']) }}
-									{{ Form::close() }}
+									@can('update', $post)
+										<a  class="dropdown-item" href="{{ $post->url->edit }}" >Editar</a>
+									@endcan
+
+									@can('delete', $post)
+										{{ Form::open(['url' => $post->url->delete, 'method' => 'DELETE']) }}
+										{{ Form::submit(__('Eliminar'), ['class' => 'dropdown-item']) }}
+										{{ Form::close() }}
+									@endcan
 								</div>
 							</td>
 						</tr>
@@ -40,12 +55,12 @@
 
 				@else
 					<tr>
-						<th colspan="5" class="text-center">No Post Yet.</th>
+						<th colspan="5" class="text-center">Sin publicaciones aún.</th>
 					</tr>
 				@endif
 				</tbody>
 			</table>
-			{{ $posts->links() }}
+			{{--{{ $posts->links() }}--}}
 		</div>
 	</div>
 

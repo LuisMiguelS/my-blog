@@ -21,14 +21,14 @@
 
 					@foreach($users as $user)
 						<tr>
-							<td><img class="rounded-circle"  src="{{ $user->profile->avatar }}" alt="{{ $user->name }}" width="50px" height="50px"></td>
+							<td><img class="rounded-circle"  src="{{ optional($user->profile)->avatar }}" alt="{{ $user->name }}" width="50px" height="50px"></td>
 
 							<td>{{ $user->name }}</td>
 
 							<td></td>
 
 							<td>
-								{{ Form::open(['route' => ['users.destroy', auth()->id()], 'method' => 'DELETE']) }}
+								{{ Form::open(['url' => $user->url->delete, 'method' => 'DELETE']) }}
 									{{ Form::submit(__('Eliminar'), ['class' => 'btn btn-danger btn-sm']) }}
 								{{ Form::close() }}
 							</td>

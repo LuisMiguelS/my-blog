@@ -29,11 +29,11 @@
 				<div class="card-body">
 					<div class="form-group">
 
-							{{ Form::textarea('content', old('content'), ['class' => $errors->has('content') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
+							{{ Form::textarea('body', old('body'), ['class' => $errors->has('body') ? 'form-control is-invalid' : 'form-control', 'required' => true, 'id' => 'body']) }}
 
-							@if ($errors->has('content'))
+							@if ($errors->has('body'))
 								<span class="invalid-feedback">
-			             			<strong>{{ $errors->first('content') }}</strong>
+			             			<strong>{{ $errors->first('body') }}</strong>
 			         			</span>
 							@endif
 					</div>
@@ -47,70 +47,105 @@
 
 		</div>
 		<div class="col-md-4">
-
 			<div class="card">
 				<div class="card-body">
 					<div class="form-group">
-						{{ Form::label('thumbnails', __('Imagen del Post'), ['class' => '']) }}
 
-						{{ Form::file('thumbnails', ['class' => $errors->has('thumbnails') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
+						{{ Form::label('image', __('Imagen del Post'), ['class' => '']) }}
 
-						@if ($errors->has('thumbnails'))
+						{{--<img src=" {{ $post->image }} " class="img-thumbnail">--}}
+
+						{{ Form::file('image', ['class' => $errors->has('image') ? 'form-control is-invalid' : 'form-control', 'required' => false]) }}
+
+						@if ($errors->has('image'))
 							<span class="invalid-feedback">
-								<strong>{{ $errors->first('thumbnails') }}</strong>
+								<strong>{{ $errors->first('image') }}</strong>
 							</span>
 						@endif
 					</div>
-				</div>
-			</div>
 
-			<br>
-
-			<div class="card">
-				<div class="card-body">
 					<div class="form-group">
 						{{ Form::label('category_id', __('Categoria'), ['class' => '']) }}
 
 						{{ Form::select('category_id', $categories, old('category_id'),  ['class' => $errors->has('category_id') ? 'form-control is-invalid' : 'form-control', 'required' => true] ) }}
 
 						@if ($errors->has('category_id'))
-						<span class="invalid-feedback">
+							<span class="invalid-feedback">
 							<strong>{{ $errors->first('category_id') }}</strong>
 						</span>
 						@endif
 					</div>
-				</div>
-			</div>
 
-			<br>
+					@if($tags->count())
+						<div class="form-group">
+							{{ Form::label('tags', __('Tags'), ['class' => '']) }}
+							{{ Form::select('tags[]', $tags, old('tags'),  ['class' => $errors->has('tags') ? 'form-control is-invalid' : 'form-control', 'id' => 'tags',  'multiple' => 'multiple'] ) }}
 
-			<div class="card">
-				<div class="card-body">
+							@if ($errors->has('tags'))
+								<span class="invalid-feedback">
+									<strong>{{ $errors->first('tags') }}</strong>
+								</span>
+							@endif
+						</div>
+					@endif
+
 					<div class="form-group">
-						{{ Form::label('tags', __('Tags'), ['class' => '']) }}
-						{{ Form::text('tags', old('tags'), ['class' => $errors->has('') ? 'form-control is-invalid' : 'form-control', 'data-role' => 'tagsinput', 'required' => true]) }}
+						{{ Form::label('excerpt', __('Extracto'), ['class' => '']) }}
 
-						@if ($errors->has('tags'))
+						{{ Form::textarea('excerpt', old('excerpt'), ['class' => $errors->has('excerpt') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
+
+						@if ($errors->has('excerpt'))
 							<span class="invalid-feedback">
-								<strong>{{ $errors->first('tags') }}</strong>
-							</span>
+			             			<strong>{{ $errors->first('excerpt') }}</strong>
+			         			</span>
 						@endif
-
 					</div>
 				</div>
 			</div>
 
+			<div class="card">
+				<div class="card-header">SEO</div>
+				<div class="card-body">
+					<div class="form-group">
+						{{ Form::label('seo_title', __('Titulo SEO'), ['class' => '']) }}
+
+						{{ Form::text('seo_title', old('seo_title'), ['class' => $errors->has('seo_title') ? 'form-control is-invalid' : 'form-control']) }}
+
+						@if ($errors->has('seo_title'))
+							<span class="invalid-feedback">
+								<strong>{{ $errors->first('seo_title') }}</strong>
+							</span>
+						@endif
+					</div>
+
+					<div class="form-group">
+						{{ Form::label('meta_description', __('Descripcion Meta Seo'), ['class' => '']) }}
+
+						{{ Form::text('meta_description', old('meta_description'), ['class' => $errors->has('meta_description') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
+
+						@if ($errors->has('meta_description'))
+							<span class="invalid-feedback">
+			             			<strong>{{ $errors->first('meta_description') }}</strong>
+			         			</span>
+						@endif
+					</div>
+
+					<div class="form-group">
+						{{ Form::label('meta_keywords', __('Kewwords Meta Seo'), ['class' => '']) }}
+
+						{{ Form::text('meta_keywords', old('meta_keywords'), ['class' => $errors->has('meta_keywords') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
+
+						@if ($errors->has('meta_keywords'))
+							<span class="invalid-feedback">
+								<strong>{{ $errors->first('meta_keywords') }}</strong>
+							</span>
+						@endif
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 
 	{{ Form::close() }}
 
 @endcomponent
-
-@section('styles')
-	<link href="{{ asset('css/tagsinput.css') }}" rel="stylesheet">
-@endsection
-
-@section('scripts')
-	<script src="{{ asset('js/tagsinput.js') }}"></script>
-@endsection

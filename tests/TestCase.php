@@ -3,31 +3,21 @@
 namespace Tests;
 
 use App\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication,RefreshDatabase;
+    use CreatesApplication;
 
-    protected function getCreateUser()
+    protected function createAdmin()
     {
-        return factory(User::class)->create();
+        return factory(User::class)->states(User::ADMIN_ROLE)->create();
     }
 
-    /**
-     * @param User $user
-     * @param $permisos
-     */
-    public function userAssignPermissionToRole(User $user, $permisos)
+    protected function createUser($role = User::READER_ROLE)
     {
-        foreach ($permisos as $permiso){
-            $permission[] = Permission::create(['name' => $permiso]);
-        }
-        $role = Role::create(['name' => User::ADMIN_ROLE]);
-        $role->givePermissionTo($permission);
-        $user->assignRole($role);
+        return factory(User::class)->create([
+            'role' => $role
+        ]);
     }
 }
