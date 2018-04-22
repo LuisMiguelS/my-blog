@@ -46,3 +46,19 @@
   color: #2962FF;
   border: none;
 }
+
+// Alertas
+
+.alert-danger {
+  color: #d63031;
+  background-color: #f8d7da;
+  border-color: transparent;
+  border-left: 6px solid #d63031;
+}
+
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: transparent;
+  border-left: 6px solid #155724;
+}

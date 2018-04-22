@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Post;
-use App\Tag;
-use App\Category;
+use App\{Post, Tag, Category};
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\UpdatePostRequest;
 use App\Http\Requests\CreatePostRequest;
-use App\User;
-use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\Response;
 
 class PostController extends Controller
 {
@@ -20,15 +18,13 @@ class PostController extends Controller
     {
         $this->authorize('view', Post::class);
 
-        $posts = Post::with('user')
-            ->where('status', Post::PUBLISHED)
-            ->unless(auth()->user()->isAdmin(), function($q) {
+        $posts = Post::unless(auth()->user()->isAdmin(), function($q) {
                 $q->where('user_id', auth()->id());
-            })->paginate(15);
+            })->published();
 
         $drafts = Post::where('status', Post::DRAFT)->where('user_id', auth()->id())->count();
 
-        return view('admin.posts.index', compact('posts', 'drafts'));
+        return view('post.index', compact('posts', 'drafts'));
     }
 
     /**
@@ -39,14 +35,33 @@ class PostController extends Controller
     {
         $this->authorize('create', Post::class);
 
-        return view('admin.posts.create', [
-            'categories' => Category::select('name','id')->get()->pluck('name','id'),
-            'tags' => Tag::select('tag','id')->get()->pluck('tag','id'),
-        ]);
+        $categories = Category::select('name','id')->get()->pluck('name','id');
+
+        $tags = Tag::select('tag','id')->get()->pluck('tag','id');
+
+        return view('post.create', compact('categories', 'tags'));
     }
 
+    public function show($category_slug, $post_slug)
+    {
+        $post = Post::with(['user:id,name','category:id,slug'])
+            ->where('status', Post::PUBLISHED)
+            ->findBySlug($post_slug);
+
+        abort_unless($post->postInCategory($category_slug), Response::HTTP_NOT_FOUND);
+
+        return view('post.show', compact('post'));
+    }
+
+    /**
+     * @param \App\Http\Requests\CreatePostRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function store(CreatePostRequest $request)
     {
+        $this->authorize('create', Post::class);
+
         $campos = $request->validated();
 
         if($request->hasFile('image')) {
@@ -71,15 +86,23 @@ class PostController extends Controller
     {
         $this->authorize('update', $post);
 
-        return view('admin.posts.edit', [
-            'post' => $post,
-            'categories' => Category::select('name','id')->get()->pluck('name','id'),
-            'tags' => Tag::select('tag','id')->get()->pluck('tag','id'),
-        ]);
+        $categories = Category::select('name','id')->get()->pluck('name','id');
+
+        $tags = Tag::select('tag','id')->get()->pluck('tag','id');
+
+        return view('post.edit', compact('post', 'categories', 'tags'));
     }
 
+    /**
+     * @param \App\Http\Requests\UpdatePostRequest $request
+     * @param \App\Post $post
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function update(UpdatePostRequest $request, Post $post)
     {
+        $this->authorize('update', $post);
+
         $campos = $request->validated();
 
         if(request()->hasFile('image')) {
@@ -103,43 +126,80 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $this->authorize('delete', $post);
+
+        if (!auth()->user()->owns($post) && !$post->isPublished()){
+            abort(403);
+        }
+
         $post->delete();
 
-        return back()->with(['success' => 'The post was just trashed.']);
+        return back()->with(['success' => "La publicación: {$post->title} fue simplemente destruida."]);
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function draft()
     {
+        $this->authorize('view', Post::class);
+
         $drafts = Post::with('user')
             ->where('status', Post::DRAFT)
             ->where('user_id', auth()->id())
+            ->orderBy('id','DESC')
             ->paginate(15);
 
         $posts = Post::where('status', Post::PUBLISHED)->unless(auth()->user()->isAdmin(), function($q) {
             $q->where('user_id', auth()->id());
         })->count();
 
-        return view('admin.posts.draft', compact('posts', 'drafts'));
+        return view('post.draft', compact('posts', 'drafts'));
     }
 
-    public function kill(Post $post)
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function trashed()
     {
+        $this->authorize('only-admin', Post::class);
+
+        $trashs = Post::with('user')->onlyTrashed()->orderBy('id','DESC')->paginate(15);
+
+        return view('post.trashed', compact('trashs'));
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function restore($id)
+    {
+        $this->authorize('only-admin', Post::class);
+
+        $post = Post::withTrashed()->where('id', $id)->firstOrFail();
+
+        $post->restore();
+
+        return back()->with(['success' => "La publicación: {$post->title}  fue restaurada correctamente."]);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function kill($id)
+    {
+        $this->authorize('only-admin', Post::class);
+
+        $post = Post::withTrashed()->where('id', $id)->firstOrFail();
+
         $post->forceDelete();
 
         return back()->with(['success' => "La publicación: {$post->title}  fue borrada de forma permanente."]);
-    }
-
-    public function trashed()
-    {
-        $trashs = Post::with('user')->onlyTrashed()->paginate(15);
-
-        return view('admin.posts.trashed', compact('trashs'));
-    }
-
-    public function restore(Post $post)
-    {
-        $post->restore();
-
-        return back()->with(['success' => 'La publicación: {$post->title}  fue restaurada correctamente.']);
     }
 }

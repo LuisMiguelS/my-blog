@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@component('admin.component.content')
+@component('component.content-admin')
 
         <div class="card">
             <h5 class="card-header">Post</h5>
@@ -16,7 +16,7 @@
             <h5 class="card-header">Post Eliminados</h5>
             <div class="card-body">
                 <h4>{{ $post_trashed_count }}</h4>
-                <a href="">Click</a>
+                <a href="{{ route('posts.trashed') }}">Click</a>
             </div>
         </div>
 

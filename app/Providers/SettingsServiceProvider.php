@@ -16,18 +16,19 @@ class SettingsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-       /* if (Schema::hasTable('settings')) {
+        try{
             $settings = Setting::first();
 
-            if (isset($settings->site_name)) {
-                Config::set('app.name', $settings->site_name);
-            }
+            Config::set('app.name', $settings->site_name);
 
             Config::set('app.contact', [
                 'phone' => $settings->contact_number,
                 'email' => $settings->contact_email,
                 'address' => $settings->address,
             ]);
-        }*/
+
+        }catch (\Exception $e){
+            //
+        }
     }
 }

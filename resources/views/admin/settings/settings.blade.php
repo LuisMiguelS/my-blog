@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@component('admin.component.content')
+@component('component.content-admin')
 
 	<div class="card">
 		<h5 class="card-header"><b>Edit Blog Settings</b></h5>

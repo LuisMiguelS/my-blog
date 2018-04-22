@@ -12,7 +12,7 @@ class Category extends Model
 {
     use SoftDeletes, HasSlug, FindSlug;
 
-	protected $fillable = ['name'];
+	protected $fillable = ['name, slug'];
 
     public function setNameAttribute($name)
     {
@@ -30,7 +30,7 @@ class Category extends Model
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
-            ->generateSlugsFrom('title')
+            ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
     }
 

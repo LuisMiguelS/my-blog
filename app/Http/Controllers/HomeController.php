@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
+
 class HomeController extends Controller
 {
     public function index()
@@ -9,64 +11,18 @@ class HomeController extends Controller
     	return view('index');
     }
 
-    public function singlePost($slug)
+    public function archive()
     {
-    	/*$post = Post::where('slug', $slug)->first();
+        $posts = Post::filter([request()->month, request()->year])
+            ->published();
 
-    	$next_id = Post::where('id', '>', $post->id)->min('id');
-
-    	$prev_id = Post::where('id', '<', $post->id)->max('id');*/
-
-     /*   'post' => $post,
-
-    		'title' => $post->title,
-    		'categories' => Category::take(5)->get(),
-    		'settings' => Setting::first(),
-    		'tags' => Tag::all(),
-    		'next_post' => Post::find($next_id),
-    		'prev_post' => Post::find($prev_id)
-    	]*/
-
-    	//return view('single');
-    }
-
- /*   public function category($id)
-    {
-        $category = Category::find($id);
-
-        return view('category', [
-            'category' => $category,
-            'title' => $category->name,
-            'categories' => Category::take(5)->get(),
-            'settings' => Setting::first(),
-            'tags' => Tag::all()
-        ]);
-    }
-
-    public function tag($id)
-    {
-        $tag = Tag::find($id);
-
-        return view('tag', [
-            'tag' => $tag,
-            'title' => $tag->tag,
-            'categories' => Category::take(5)->get(),
-            'settings' => Setting::first(),
-            'tags' => Tag::all()
-        ]);
+        return view('post.search', compact('posts'));
     }
 
     public function search()
     {
-        $posts = Post::where('title', 'like', '%'.request('query').'%')->orderBy('id', 'desc')->get();
+        $posts = Post::search(request()->q)->published();
 
-        return view('results', [
-            'posts' => $posts,
-            'title' => 'Search results',
-            'categories' => Category::take(5)->get(),
-            'settings' => Setting::first(),
-            'tags' => Tag::all(),
-            'search' => request('query')
-        ]);
-    }*/
+        return view('post.search', compact('posts'));
+    }
 }

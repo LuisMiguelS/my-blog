@@ -53,6 +53,6 @@ class PostPolicy
      */
     public function delete(User $user, Post $post)
     {
-        return $user->owns($post) && !$post->isPublished();
+        return $user->owns($post) && !$post->isPublished() && $user->role === User::AUTHOR_ROLE;
     }
 }

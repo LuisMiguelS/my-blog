@@ -29,5 +29,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::before(function (User $user) {
            if ($user->isAdmin())  { return true; }
         });
+
+        Gate::define('only-admin', function ($user, $post) {
+            return $user->id == $post->user_id;
+        });
     }
 }

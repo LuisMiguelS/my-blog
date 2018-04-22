@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserCreateRequest extends FormRequest
@@ -27,6 +28,7 @@ class UserCreateRequest extends FormRequest
             'name' => 'required|string|min:3|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
+            'role' => 'in:'. User::ADMIN_ROLE. ',' . User::AUTHOR_ROLE. ',' .User::READER_ROLE,
         ];
     }
 }

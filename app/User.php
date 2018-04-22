@@ -23,7 +23,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role'
+        'name', 'email', 'password', 'role', 'avatar'
     ];
 
     /**
@@ -52,6 +52,16 @@ class User extends Authenticatable
     public function getNameAttribute($name)
     {
         return ucwords($name);
+    }
+
+
+    public function getAvatarAttribute($avatar)
+    {
+        if (is_null($avatar)) {
+            return asset('recursos/imagenes/profile-default.png');
+        }
+
+        return asset('storage/'.$avatar );
     }
 
     public function getUrlAttribute()

@@ -42,4 +42,14 @@ class UrlPresenter
     {
         return route('posts.update', $this->post);
     }
+
+    public function restore()
+    {
+        return route('posts.restore', $this->post);
+    }
+
+    public function kill()
+    {
+        return route('posts.kill', $this->post);
+    }
 }

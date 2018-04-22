@@ -24,7 +24,7 @@ class ListPostsTest extends TestCase
         $response = $this->actingAs($this->createAdmin())->get('admin/posts');
 
         $response->assertStatus(Response::HTTP_OK)
-            ->assertViewIs('admin.posts.index')
+            ->assertViewIs('post.index')
             ->assertViewHas('posts', function ($posts) use ($post1, $post2) {
                 return $posts->contains($post1) && $posts->contains($post2);
             });
@@ -49,7 +49,7 @@ class ListPostsTest extends TestCase
         $response = $this->actingAs($author)->get('admin/posts');
 
         $response->assertStatus(Response::HTTP_OK)
-            ->assertViewIs('admin.posts.index')
+            ->assertViewIs('post.index')
             ->assertViewHas('posts', function ($posts) use ($post1, $post2, $post3, $post4) {
                return $posts->contains($post1) && !$posts->contains($post2)
                    && $posts->contains($post3) && !$posts->contains($post4);
@@ -57,7 +57,59 @@ class ListPostsTest extends TestCase
     }
 
     /** @test */
-    function authorized_users_can_only_see_crud_posts()
+    function admin_can_only_see_their_drafts_posts()
+    {
+        $admin = $this->createAdmin();
+
+        $draft1 = factory(Post::class)->create([
+            'user_id' => $admin->id,
+            'status' => Post::DRAFT
+        ]);
+        $draft2 = factory(Post::class)->create([
+            'user_id' => $admin->id,
+            'status' => Post::DRAFT
+        ]);
+        $draft3 = factory(Post::class)->create([
+            'status' => Post::DRAFT
+        ]);
+
+        $response = $this->actingAs($admin)->get('admin/posts/draft');
+
+        $response->assertStatus(Response::HTTP_OK)
+            ->assertViewIs('post.draft')
+            ->assertViewHas('drafts', function ($drafts) use ($draft1, $draft2, $draft3) {
+                return $drafts->contains($draft1) && $drafts->contains($draft2) && !$drafts->contains($draft3);
+            });
+    }
+
+    /** @test */
+    function author_can_only_see_their_drafts_posts()
+    {
+        $author = $this->createUser(\App\User::AUTHOR_ROLE);
+
+        $draft1 = factory(Post::class)->create([
+            'user_id' => $author->id,
+            'status' => Post::DRAFT
+        ]);
+        $draft2 = factory(Post::class)->create([
+            'user_id' => $author->id,
+            'status' => Post::DRAFT
+        ]);
+        $draft3 = factory(Post::class)->create([
+            'status' => Post::DRAFT
+        ]);
+
+        $response = $this->actingAs($author)->get('admin/posts/draft');
+
+        $response->assertStatus(Response::HTTP_OK)
+            ->assertViewIs('post.draft')
+            ->assertViewHas('drafts', function ($drafts) use ($draft1, $draft2, $draft3) {
+                return $drafts->contains($draft1) && $drafts->contains($draft2) && !$drafts->contains($draft3);
+            });
+    }
+
+    /** @test */
+    function authorized_users_cannot_see_crud_posts()
     {
         $user = $this->createUser();
 
