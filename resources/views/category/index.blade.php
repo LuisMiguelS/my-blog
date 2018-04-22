@@ -5,7 +5,7 @@
 	<div class="card">
 		<h5 class="card-header">
 			<b>Categorías Publicadas</b>
-			<a class="btn btn-outline-secondary" href="{{ route('categories.create') }}">
+			<a class="btn btn-outline-secondary" href="{{ url('admin/categories/create') }}">
 				Crear Categoria
 			</a>
 		</h5>
@@ -28,10 +28,15 @@
 									Acciones
 								</button>
 								<div class="dropdown-menu">
-									<a class="dropdown-item" href="{{ route('categories.edit', ['id' => $category->id]) }}">Editar</a>
-									{{ Form::open(['route' => ['categories.destroy', $category->id], 'method' => 'DELETE']) }}
-									{{ Form::submit(__('Eliminar'), ['class' => 'dropdown-item']) }}
-									{{ Form::close() }}
+									@can('update', $category)
+										<a class="dropdown-item" href="{{ url($category->url->edit) }}">Editar</a>
+									@endcan
+
+									@can('delete', $category)
+										{{ Form::open(['url' => $category->url->delete, 'method' => 'DELETE']) }}
+										{{ Form::submit(__('Eliminar'), ['class' => 'dropdown-item']) }}
+										{{ Form::close() }}
+									@endcan
 								</div>
 							</td>
 						</tr>

@@ -5,6 +5,7 @@ namespace App;
 use App\Traits\FindSlug;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use App\Presenters\Tag\UrlPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -14,19 +15,23 @@ class Tag extends Model
 
 	protected $fillable = ['tag', 'slug'];
 
-    public function setNameAttribute($tag)
+    protected $appends = [
+        'url'
+    ];
+
+    public function setTagAttribute($tag)
     {
         $this->attributes['tag'] = strtolower($tag);
     }
 
-    public function getNameAttribute($name)
+    public function getTagAttribute($tag)
     {
-        return ucwords($name);
+        return ucwords($tag);
     }
 
-    public function posts()
+    public function getUrlAttribute()
     {
-    	return $this->belongsToMany(Post::class);
+        return new UrlPresenter($this);
     }
 
     /**
@@ -37,5 +42,10 @@ class Tag extends Model
         return SlugOptions::create()
             ->generateSlugsFrom('tag')
             ->saveSlugsTo('slug');
+    }
+
+    public function posts()
+    {
+    	return $this->belongsToMany(Post::class);
     }
 }

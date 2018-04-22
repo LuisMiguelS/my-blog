@@ -8,11 +8,15 @@
             <a class="btn btn-primary" href="{{ route('posts.create') }}">Crear Post</a>
             <a class="btn btn-outline-primary" href="{{ route('posts.index') }}">
                 Publicaciones
-                @if($posts > 0)
+                @if($posts)
                     ({{$posts}})
                 @endif
             </a>
-            <a class="btn btn-outline-danger" href="{{ route('posts.trashed') }}">Post Eliminados</a>
+
+            @can('only-admin')
+                <a class="btn btn-outline-danger" href="{{ route('posts.trashed') }}">Post Eliminados</a>
+            @endcan
+
         </h5>
         <div class="card-body">
             <div class="table-responsive">

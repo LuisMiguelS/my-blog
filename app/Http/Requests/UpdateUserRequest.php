@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\User;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategoryEditRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +15,7 @@ class CategoryEditRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return \Gate::allows('update', $this->user);
     }
 
     /**
@@ -25,19 +26,14 @@ class CategoryEditRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
+            'name'=>'required|max:120',
+            'role' => 'in:' .User::ADMIN_ROLE. ',' . User::AUTHOR_ROLE. ',' .User::READER_ROLE,
+            'email' => [
                 'required',
-                'min:4',
-                'max:30',
-                Rule::unique('categories')->ignore($this->route('category')->id),
+                'email',
+                'max:255',
+                Rule::unique('users')->ignore($this->user->id),
             ],
-        ];
-    }
-
-    public function attributes()
-    {
-        return [
-            'name' => 'categoria',
         ];
     }
 }

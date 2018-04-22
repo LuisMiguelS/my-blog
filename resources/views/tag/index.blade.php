@@ -6,7 +6,7 @@
 	<div class="card">
 		<h5 class="card-header">
 			<b>Tag Publicados</b>
-			<a class="btn btn-outline-secondary" href="{{ route('tags.create') }}"> Crear Tags</a>
+			<a class="btn btn-outline-secondary" href="{{ url('admin/tags/create') }}"> Crear Tags</a>
 		</h5>
 		<div class="card-body">
 			<table class="table table-hover">
@@ -27,10 +27,16 @@
 									Acciones
 								</button>
 								<div class="dropdown-menu">
-									<a href="{{ route('tags.edit', ['id' => $tag->id]) }}" class="dropdown-item">Editar</a>
-									{{ Form::open(['route' => ['tags.destroy', $tag->id], 'method' => 'DELETE']) }}
-									{{ Form::submit(__('Eliminar'), ['class' => 'dropdown-item']) }}
-									{{ Form::close() }}
+									@can('edit', $tag)
+										<a href="{{ url($tag->url->edit) }}" class="dropdown-item">Editar</a>
+									@endcan
+
+									@can('delete', $tag)
+										{{ Form::open(['url' => url($tag->url->delete), 'method' => 'DELETE']) }}
+										{{ Form::submit(__('Eliminar'), ['class' => 'dropdown-item']) }}
+										{{ Form::close() }}
+									@endcan
+
 								</div>
 							</td>
 						</tr>

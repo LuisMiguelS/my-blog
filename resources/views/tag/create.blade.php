@@ -7,7 +7,7 @@
 			<b>Crear Un Nuevo Tag</b>
 		</h5>
 		<div class="card-body">
-			{{ Form::open(['route' => 'tags.store', 'method' => 'POST']) }}
+			{{ Form::open(['url' => 'admin/tags', 'method' => 'POST']) }}
 
 			<div class="form-group row">
 				{{ Form::label('tag', __('Nombre del Tag'), ['class' => 'col-md-4 col-form-label text-md-right']) }}

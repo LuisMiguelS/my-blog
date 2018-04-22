@@ -14235,7 +14235,9 @@ namespace  {
 
     class Request extends \Illuminate\Support\Facades\Request {}
 
-    class Response extends \Illuminate\Support\Facades\Response {}
+    class Response extends \Illuminate\Support\Facades\Response {
+        const HTTP_FOUND = ;
+    }
 
     class Route extends \Illuminate\Support\Facades\Route {}
 

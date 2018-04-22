@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
+use App\User;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserEditRequest extends FormRequest
+class CreateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class UserEditRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return \Gate::allows('create', User::class);
     }
 
     /**
@@ -25,13 +25,10 @@ class UserEditRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required|max:120',
-            'email' => [
-                'required',
-                'email',
-                'max:20',
-                Rule::unique('users')->ignore($this->route('user')->id),
-            ],
+            'name' => 'required|string|min:3|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|min:6|confirmed',
+            'role' => 'in:'. User::ADMIN_ROLE. ',' . User::AUTHOR_ROLE. ',' .User::READER_ROLE,
         ];
     }
 }

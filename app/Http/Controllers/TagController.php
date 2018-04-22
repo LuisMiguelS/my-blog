@@ -3,19 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\{Tag, Post};
-use App\Http\Requests\TagCreateRequest;
+use App\Http\Requests\CreateTagRequest;
+use App\Http\Requests\UpdateTagRequest;
 
 class TagController extends Controller
 {
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function index()
     {
+        $this->authorize('view', Tag::class);
+
         $tags = Tag::orderBy('id','DESC')->paginate(15);
 
         return view('tag.index', compact('tags'));
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function create()
     {
+        $this->authorize('create', Tag::class);
+
         return view('tag.create');
     }
 
@@ -23,32 +36,35 @@ class TagController extends Controller
     {
         $tag = Tag::findBySlug($slug);
 
-        $posts = $tag->posts()
-            ->with(['category:id,slug'])
-            ->where('status', Post::PUBLISHED)
-            ->orderBy('id','DESC')
-            ->paginate(15);
+        $posts = $tag->posts()->published();
 
         return view('post.search', compact('posts'));
     }
     
-    public function store(TagCreateRequest $request)
+    public function store(CreateTagRequest $request)
     {
         $tag = Tag::create($request->validated());
 
-        return back()->with(['success', "La etiqueta: {$tag->name} ha sido creada con éxito."]);
+        return back()->with(['success' => "La etiqueta: {$tag->tag} ha sido creada con éxito."]);
     }
 
+    /**
+     * @param \App\Tag $tag
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function edit(Tag $tag)
     {
+        $this->authorize('update', Tag::class);
+
         return view('tag.edit', compact('tag'));
     }
 
-    public function update(TagCreateRequest $request, Tag $tag)
+    public function update(UpdateTagRequest $request, Tag $tag)
     {
         $tag->fill($request->validated())->save();
 
-        return back()->with(['success' => "La etiqueta: {$tag->name} se ha actualizado con éxito."]);
+        return back()->with(['success' => "La etiqueta: {$tag->tag} se ha actualizado con éxito."]);
     }
 
     /**
@@ -58,8 +74,10 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
+        $this->authorize('delete', Tag::class);
+
         $tag->delete();
 
-        return back()->with(['success' => "La etiqueta: {$tag->name} ha sido eliminado con éxito."]);
+        return back()->with(['success' => "La etiqueta: {$tag->tag} ha sido eliminado con éxito."]);
     }
 }

@@ -19,7 +19,8 @@ class Post extends Model
 	const PENDING = 'PENDING';
 
 	protected  $fillable = [
-		'user_id', 'category_id', 'title', 'seo_title', 'excerpt', 'body', 'slug', 'image', 'meta_description', 'meta_keywords', 'status'
+		'user_id', 'category_id', 'title', 'seo_title', 'excerpt', 'body', 'slug', 'image',
+        'meta_description', 'meta_keywords', 'status'
 	];
 
 	protected $dates = ['deleted_at'];
@@ -28,10 +29,18 @@ class Post extends Model
         'url'
     ];
 
+    /*
+     *  Mutator
+     */
+
     public function setTitleAttribute($title)
     {
         $this->attributes['title'] = strtolower($title);;
     }
+
+    /*
+     * Accessor
+     */
 
     public function getTitleAttribute($title)
     {
@@ -61,10 +70,23 @@ class Post extends Model
             ->saveSlugsTo('slug');
     }
 
+    /*
+     *  Methods
+     */
+
+    public function postInCategory($category_slug)
+    {
+        return $this->category->slug === $category_slug;
+    }
+
     public function isPublished()
     {
         return $this->status === Post::PUBLISHED;
     }
+
+    /*
+     *  Relationships
+     */
 
     public function category()
     {
@@ -81,28 +103,9 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function postInCategory($category_slug)
-    {
-        return $this->category->slug === $category_slug;
-    }
-
-    public function scopeFilter($query, $filters)
-    {
-        // Refactoring
-        if ($month = $filters[0]) {
-
-            $query->whereMonth('created_at', Carbon::parse($month)->month);
-
-        }
-
-        if ($year = $filters[1]) {
-
-            $query->whereYear('created_at', $year);
-
-        }
-
-        return $query;
-    }
+    /*
+     * Query Local Scope
+     */
 
     public static function archives()
     {
@@ -113,9 +116,26 @@ class Post extends Model
             ->toArray();
     }
 
+    public function scopeFilter($query, $filters)
+    {
+        if ($month = $filters[0]) {
+            $query->whereMonth('created_at', Carbon::parse($month)->month);
+        }
+
+        if ($year = $filters[1]) {
+            $query->whereYear('created_at', $year);
+        }
+        return $query;
+    }
+
     public function scopeSearch($query, $search)
     {
         return $query->where('title', 'like', '%'. $search .'%');
+    }
+
+    public function scopeCountPost($query, $status)
+    {
+        return $query->where('status', $status)->count();
     }
 
     public function scopePublished($query)
@@ -125,4 +145,30 @@ class Post extends Model
             ->orderBy('id','DESC')
             ->paginate(15);
     }
+
+    public function scopeDraft($query)
+    {
+        return $query->with(['user:id,name'])
+            ->where('status', Post::DRAFT)
+            ->where('user_id', auth()->id())
+            ->orderBy('id','DESC')
+            ->paginate(15);
+    }
+
+    public function scopeTrashs($query)
+    {
+        return $query->with(['user:id,name'])
+            ->onlyTrashed()
+            ->orderBy('id','DESC')
+            ->paginate(15);
+    }
+
+    public function scopeFindTrash($query, $id)
+    {
+        return $query->withTrashed()
+            ->where('id', $id)
+            ->firstOrFail();
+    }
+
+
 }

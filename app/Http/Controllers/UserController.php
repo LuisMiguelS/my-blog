@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use App\Http\Requests\UserEditRequest;
-use App\Http\Requests\UserCreateRequest;
+use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\CreateUserRequest;
 
 class UserController extends Controller
 {
     public function index()
     {
-        return view('user.index', ['users' => User::paginate(15)]);
+        return view('user.index')
+            ->with(['users' => User::orderBy('id', 'DESC')->paginate(15)]);
     }
 
     public function create()
@@ -18,33 +19,34 @@ class UserController extends Controller
         return view('user.create');
     }
 
-    public function store(UserCreateRequest $request)
+    public function store(CreateUserRequest $request)
     {
         $user = User::create($request->validated());
 
         return back()->with(['success'=> "El usuario: {$user->name} ha sido agregado exitosamente."]);
     }
 
+    /**
+     * @param \App\User $user
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function edit(User $user)
     {
-        $roles = Role::get();
-        return view('users.edit', compact('user', 'roles'));
+        $this->authorize('update', $user);
+
+        abort_if($user->beforeUpdate(), 403);
+
+        return view('user.edit', compact('user'));
     }
 
-    public function update(UserEditRequest $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
+        abort_if($user->beforeUpdate(), 403);
+
         $user->fill($request->validated())->save();
 
-        $roles = $request['roles'];
-
-        if (isset($roles)) {
-            $user->roles()->sync($roles);
-        }
-        else {
-            $user->roles()->detach();
-        }
-
-
+        return back()->with(['success'=> "El usuario: {$user->name} ha sido editado exitosamente."]);
     }
 
     /**
@@ -54,8 +56,14 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $this->authorize('delete', $user);
+
+        abort_if($user->beforeUpdate(), 403);
+
         $user->profile()->delete();
+
         $user->delete();
+
         return back()->with(['success' => "El usuario: {$user->name} ha sido eliminado con éxito."]);
     }
 }

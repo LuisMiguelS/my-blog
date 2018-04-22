@@ -6,13 +6,20 @@ use App\Traits\FindSlug;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
+use App\Presenters\Category\UrlPresenter;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
     use SoftDeletes, HasSlug, FindSlug;
 
-	protected $fillable = ['name, slug'];
+	protected $fillable = [
+	    'name', 'slug'
+    ];
+
+    protected $appends = [
+        'url'
+    ];
 
     public function setNameAttribute($name)
     {
@@ -32,6 +39,11 @@ class Category extends Model
         return SlugOptions::create()
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
+    }
+
+    public function getUrlAttribute()
+    {
+        return new UrlPresenter($this);
     }
 
     public function posts ()

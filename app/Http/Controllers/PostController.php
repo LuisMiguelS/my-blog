@@ -22,7 +22,8 @@ class PostController extends Controller
                 $q->where('user_id', auth()->id());
             })->published();
 
-        $drafts = Post::where('status', Post::DRAFT)->where('user_id', auth()->id())->count();
+        $drafts = Post::where('user_id', auth()->id())
+            ->CountPost(Post::DRAFT);
 
         return view('post.index', compact('posts', 'drafts'));
     }
@@ -56,12 +57,9 @@ class PostController extends Controller
     /**
      * @param \App\Http\Requests\CreatePostRequest $request
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(CreatePostRequest $request)
     {
-        $this->authorize('create', Post::class);
-
         $campos = $request->validated();
 
         if($request->hasFile('image')) {
@@ -97,12 +95,9 @@ class PostController extends Controller
      * @param \App\Http\Requests\UpdatePostRequest $request
      * @param \App\Post $post
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        $this->authorize('update', $post);
-
         $campos = $request->validated();
 
         if(request()->hasFile('image')) {
@@ -145,15 +140,11 @@ class PostController extends Controller
     {
         $this->authorize('view', Post::class);
 
-        $drafts = Post::with('user')
-            ->where('status', Post::DRAFT)
-            ->where('user_id', auth()->id())
-            ->orderBy('id','DESC')
-            ->paginate(15);
+        $drafts = Post::draft();
 
-        $posts = Post::where('status', Post::PUBLISHED)->unless(auth()->user()->isAdmin(), function($q) {
+        $posts = Post::unless(auth()->user()->isAdmin(), function($q) {
             $q->where('user_id', auth()->id());
-        })->count();
+        })->CountPost(Post::PUBLISHED);
 
         return view('post.draft', compact('posts', 'drafts'));
     }
@@ -164,9 +155,9 @@ class PostController extends Controller
      */
     public function trashed()
     {
-        $this->authorize('only-admin', Post::class);
+        $this->authorize('only-admin');
 
-        $trashs = Post::with('user')->onlyTrashed()->orderBy('id','DESC')->paginate(15);
+        $trashs = Post::trashs();
 
         return view('post.trashed', compact('trashs'));
     }
@@ -178,9 +169,9 @@ class PostController extends Controller
      */
     public function restore($id)
     {
-        $this->authorize('only-admin', Post::class);
+        $this->authorize('only-admin');
 
-        $post = Post::withTrashed()->where('id', $id)->firstOrFail();
+        $post = Post::findTrash($id);
 
         $post->restore();
 
@@ -194,9 +185,9 @@ class PostController extends Controller
      */
     public function kill($id)
     {
-        $this->authorize('only-admin', Post::class);
+        $this->authorize('only-admin');
 
-        $post = Post::withTrashed()->where('id', $id)->firstOrFail();
+        $post = Post::findTrash($id);
 
         $post->forceDelete();
 

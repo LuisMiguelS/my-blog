@@ -7,7 +7,7 @@
 				<b>Crear Una Nueva Categoria</b>
 			</h5>
 			<div class="card-body">
-				{{ Form::open(['route' => 'categories.store', 'method' => 'POST']) }}
+				{{ Form::open(['url' => 'admin/categories', 'method' => 'POST']) }}
 
 				<div class="form-group row">
 					{{ Form::label('name', __('Categoria'), ['class' => 'col-md-4 col-form-label text-md-right']) }}

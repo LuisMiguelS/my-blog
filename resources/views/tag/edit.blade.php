@@ -7,7 +7,7 @@
 			<b>Editar Tag: {{ $tag->tag }}</b>
 		</h5>
 		<div class="card-body">
-			{{ Form::model($tag,['route' => ['tags.update', $tag->id], 'method' => 'PUT']) }}
+			{{ Form::model($tag,['url' => $tag->url->update, 'method' => 'PUT']) }}
 
 			<div class="form-group row">
 				{{ Form::label('tag', __('Nombre del tag'), ['class' => 'col-md-4 col-form-label text-md-right']) }}

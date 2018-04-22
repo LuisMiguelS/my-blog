@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Category;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class TagCreateRequest extends FormRequest
+class UpdateCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +15,7 @@ class TagCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return \Gate::allows('update', Category::class);
     }
 
     /**
@@ -24,14 +26,19 @@ class TagCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'tag' => 'required|min:3|max:20'
+            'name' => [
+                'required',
+                'min:4',
+                'max:30',
+                Rule::unique('categories')->ignore($this->category->id),
+            ],
         ];
     }
 
     public function attributes()
     {
         return [
-            'tag' => 'etiqueta'
+            'name' => 'categoria',
         ];
     }
 }

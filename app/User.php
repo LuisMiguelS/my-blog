@@ -79,6 +79,11 @@ class User extends Authenticatable
         return $this->id === $model->$foreignKey;
     }
 
+    public function beforeUpdate()
+    {
+        return $this->id === auth()->id() || $this->isAdmin();
+    }
+
     public function profile()
     {
         return $this->hasOne(Profile::class);

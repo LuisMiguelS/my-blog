@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Tag;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class TagEditRequest extends FormRequest
+class UpdateTagRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +15,7 @@ class TagEditRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return \Gate::allows('update', Tag::class);
     }
 
     /**

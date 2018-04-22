@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\User;
+use App\Category;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserCreateRequest extends FormRequest
+class CreateCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class UserCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return \Gate::allows('create', Category::class);
     }
 
     /**
@@ -25,10 +25,14 @@ class UserCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|min:3|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
-            'role' => 'in:'. User::ADMIN_ROLE. ',' . User::AUTHOR_ROLE. ',' .User::READER_ROLE,
+            'name' => 'required|min:4|max:40|unique:categories'
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'name' => 'categoria',
         ];
     }
 }

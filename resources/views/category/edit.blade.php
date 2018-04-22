@@ -7,7 +7,7 @@
 			<b>Editar Categoria {{ $category->name }}</b>
 		</h5>
 		<div class="card-body">
-			{{ Form::open(['route' => ['categories.update',  $category->id], 'method' => 'PUT']) }}
+			{{ Form::open(['url' => $category->url->update, 'method' => 'PUT']) }}
 
 			<div class="form-group row">
 				{{ Form::label('name', __('Nombre de la Categoria'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
