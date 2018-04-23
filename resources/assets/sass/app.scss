@@ -20,6 +20,14 @@
   box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%, 0.2);
 }
 
+.card-shadow-light {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.car-shadow-none {
+  box-shadow: none !important;
+}
+
 .card-header {
   border-bottom: none !important;
 }
@@ -36,7 +44,7 @@
 
 .app-list-group-item:hover,
 .app-list-group-item:focus {
-  color: #212121;
+  color: #2962FF;
   text-decoration: none;
   background-color: transparent;
 }
@@ -61,4 +69,74 @@
   background-color: #d4edda;
   border-color: transparent;
   border-left: 6px solid #155724;
+}
+
+// Blog
+
+.h4-font-italic {
+  font-style: italic !important;
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.app-list {
+  padding: 1rem !important;
+}
+
+.app-badge {
+  font-size: 85% !important;
+}
+
+
+// Social Button
+.social-btn {
+  padding: 20px;
+  font-size: 30px;
+  width: 50px;
+  text-align: center;
+  text-decoration: none;
+  margin: 5px 2px;
+  display: inline-table !important;
+}
+
+.social-btn:hover,
+.social-btn:focus {
+  opacity: 0.7;
+  text-decoration: none !important;
+}
+
+.fa-facebook-square {
+  background: #3B5998;
+  color: white;
+}
+
+.fab fa-twitter {
+  background: #55ACEE;
+  color: white;
+}
+
+.fa-google-plus {
+  background: #dd4b39;
+  color: white;
+}
+
+.fa-linkedin-in {
+  background: #007bb5;
+  color: white;
+}
+
+.fa-youtube {
+  background: #bb0000;
+  color: white;
+}
+
+.fa-instagram {
+  background: #125688;
+  color: white;
+}
+
+.fa-pinterest {
+  background: #cb2027;
+  color: white;
 }

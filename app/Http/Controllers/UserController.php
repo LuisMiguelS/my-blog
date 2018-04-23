@@ -8,14 +8,26 @@ use App\Http\Requests\CreateUserRequest;
 
 class UserController extends Controller
 {
+    /**
+     * @return $this
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function index()
     {
+        $this->authorize('view', User::class);
+
         return view('user.index')
             ->with(['users' => User::orderBy('id', 'DESC')->paginate(15)]);
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function create()
     {
+        $this->authorize('create', User::class);
+
         return view('user.create');
     }
 
