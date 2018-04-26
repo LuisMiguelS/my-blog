@@ -164,6 +164,7 @@ return [
          * Mis Providers
          */
         App\Providers\SettingsServiceProvider::class,
+        App\Providers\ViewComposerServiceProvider::class,
 
     ],
 

@@ -17,7 +17,7 @@ class CategoryPolicy
      */
     public function view(User $user)
     {
-        return $user->role === User::AUTHOR_ROLE;
+        return $user->isAdmin() || $user->isAuthor();
     }
 
     /**
@@ -28,7 +28,7 @@ class CategoryPolicy
      */
     public function create(User $user)
     {
-        return false;
+        return $user->isAdmin();
     }
 
     /**
@@ -39,7 +39,7 @@ class CategoryPolicy
      */
     public function update(User $user)
     {
-        return false;
+        return $user->isAdmin();
     }
 
     /**
@@ -50,6 +50,6 @@ class CategoryPolicy
      */
     public function delete(User $user)
     {
-        return false;
+        return $user->isAdmin();
     }
 }

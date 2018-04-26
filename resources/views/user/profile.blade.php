@@ -2,11 +2,11 @@
 
 @component('component.content-admin')
 
-	<div class="card">
-		<h5 class="card-header">
-			<b>Editar tu Perfil</b>
+	<div class="card shadow-sm">
+		<h5 class="card-header bg-white font-weight-bold">
+			Editar tu Perfil
 		</h5>
-		<div class="card-body">
+		<div class="card-body bg-light">
 			{{ Form::open(['route' => ['profile.update', $profile->id], 'method' => 'PUT', 'files' => true]) }}
 
 
@@ -30,7 +30,7 @@
 				{{ Form::label('facebook', __('Perfil de facebook'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
 
 				<div class="col-md-6">
-					{{ Form::text('facebook', old('facebook', $profile->facebook ), ['class' => $errors->has('facebook') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
+					{{ Form::text('facebook', old('facebook', $profile->facebook ), ['class' => $errors->has('facebook') ? 'form-control is-invalid' : 'form-control', 'required' => false]) }}
 
 					@if ($errors->has('facebook'))
 						<span class="invalid-feedback">
@@ -41,14 +41,56 @@
 			</div>
 
 			<div class="form-group row">
+				{{ Form::label('instragram', __('Perfil de instragram'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
+
+				<div class="col-md-6">
+					{{ Form::text('instragram', old('instragram', $profile->facebook ), ['class' => $errors->has('instragram') ? 'form-control is-invalid' : 'form-control', 'required' => false]) }}
+
+					@if ($errors->has('facebook'))
+						<span class="invalid-feedback">
+			             <strong>{{ $errors->first('instragram') }}</strong>
+			         </span>
+					@endif
+				</div>
+			</div>
+
+			<div class="form-group row">
+				{{ Form::label('twitter', __('Perfil de twitter'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
+
+				<div class="col-md-6">
+					{{ Form::text('twitter', old('twitter', $profile->facebook ), ['class' => $errors->has('twitter') ? 'form-control is-invalid' : 'form-control', 'required' => false]) }}
+
+					@if ($errors->has('twitter'))
+						<span class="invalid-feedback">
+			             <strong>{{ $errors->first('twitter') }}</strong>
+			         </span>
+					@endif
+				</div>
+			</div>
+
+			<div class="form-group row">
 				{{ Form::label('youtube', __('Perfil de youtube'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
 
 				<div class="col-md-6">
-					{{ Form::text('youtube', old('youtube', $profile->youtube), ['class' => $errors->has('youtube') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
+					{{ Form::text('youtube', old('youtube', $profile->youtube), ['class' => $errors->has('youtube') ? 'form-control is-invalid' : 'form-control', 'required' => false]) }}
 
 					@if ($errors->has('youtube'))
 						<span class="invalid-feedback">
 			             <strong>{{ $errors->first('youtube') }}</strong>
+			         </span>
+					@endif
+				</div>
+			</div>
+
+			<div class="form-group row">
+				{{ Form::label('google_plus', __('Perfil de google plus'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
+
+				<div class="col-md-6">
+					{{ Form::text('google_plus', old('google_plus', $profile->youtube), ['class' => $errors->has('google_plus') ? 'form-control is-invalid' : 'form-control', 'required' => false]) }}
+
+					@if ($errors->has('google_plus'))
+						<span class="invalid-feedback">
+			             <strong>{{ $errors->first('google_plus') }}</strong>
 			         </span>
 					@endif
 				</div>
@@ -70,7 +112,7 @@
 
 			<div class="form-group row mb-0">
 				<div class="col-md-6 offset-md-4">
-					{{ Form::submit(__('Actualizar'), ['class' => 'btn btn-primary']) }}
+					{{ Form::submit(__('Actualizar'), ['class' => 'btn btn-primary font-weight-bold']) }}
 				</div>
 			</div>
 			{{ Form::close() }}

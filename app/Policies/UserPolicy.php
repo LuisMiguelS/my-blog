@@ -17,7 +17,7 @@ class UserPolicy
      */
     public function view(User $user)
     {
-        return $user->role === User::AUTHOR_ROLE;
+        return $user->isAdmin() || $user->isAuthor();
     }
 
     /**
@@ -40,7 +40,7 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        return $model->beforeUpdate();
+        return $user->isAdmin() || $model->beforeUpdate();
     }
 
     /**
@@ -52,6 +52,6 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        return $model->beforeUpdate();
+        return $user->isAdmin() || $model->beforeUpdate();
     }
 }

@@ -1,5 +1,9 @@
 <?php
 
+Route::catch(function () {
+   throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+});
+
 Route::get('dashboard', 'DashboardController@index')
     ->name('dashboard.index')
     ->middleware('profile');
@@ -36,4 +40,8 @@ Route::resource('profile', 'ProfileController')->only(['index','update']);
 /*
  * RUTAS PARA LA CONFIG. DEL SITIO
  */
-Route::resource('settings', 'SettingController')->only(['index','update']);
+Route::get('settings', 'SettingController@index')->name('settings.index');
+Route::get('settings/comments', 'SettingController@comment')->name('settings.comment');
+Route::get('settings/share', 'SettingController@share')->name('settings.share');
+Route::get('settings/ads', 'SettingController@adsView')->name('settings.ads');
+Route::put('settings/{json}', 'SettingController@update')->name('settings.update');

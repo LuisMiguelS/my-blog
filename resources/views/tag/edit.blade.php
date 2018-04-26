@@ -2,11 +2,11 @@
 
 @component('component.content-admin')
 
-	<div class="card">
-		<h5 class="card-header">
-			<b>Editar Tag: {{ $tag->tag }}</b>
+	<div class="card shadow-sm">
+		<h5 class="card-header bg-white font-weight-bold">
+			Editar Tag: {{ $tag->tag }}
 		</h5>
-		<div class="card-body">
+		<div class="card-body bg-light">
 			{{ Form::model($tag,['url' => $tag->url->update, 'method' => 'PUT']) }}
 
 			<div class="form-group row">

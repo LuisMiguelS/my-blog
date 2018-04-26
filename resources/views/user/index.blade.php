@@ -2,12 +2,12 @@
 
 @component('component.content-admin')
 
-	<div class="card">
-		<h5 class="card-header">
+	<div class="card shadow-sm">
+		<h5 class="card-header bg-white">
 			<b>Todos los usuarios</b>
 			<a class="btn btn-primary" href="{{ route('users.create') }}"> Crear Usuario</a>
 		</h5>
-		<div class="card-body">
+		<div class="card-body bg-light">
 			<table class="table table-hover">
 				<thead>
 				<th>Avatar</th>
@@ -17,7 +17,7 @@
 				</thead>
 
 				<tbody>
-				@if($users->count() > 0)
+				@if($users->count())
 
 					@foreach($users as $user)
 						<tr>
@@ -30,14 +30,20 @@
 							</td>
 
 							<td>
-								<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<button class="btn bg-white shadow-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									Acciones
 								</button>
 								<div class="dropdown-menu">
-									<a class="dropdown-item" href="{{ $user->url->edit }}">Editar</a>
-									{{ Form::open(['url' => $user->url->delete, 'method' => 'DELETE']) }}
-									{{ Form::submit(__('Eliminar'), ['class' => 'dropdown-item']) }}
-									{{ Form::close() }}
+									@can('update', $user)
+										<a class="dropdown-item" href="{{ $user->url->edit }}">Editar</a>
+									@endcan
+
+									@can('delete', $user)
+										{{ Form::open(['url' => $user->url->delete, 'method' => 'DELETE']) }}
+										{{ Form::submit(__('Eliminar'), ['class' => 'dropdown-item']) }}
+										{{ Form::close() }}
+									@endcan
+
 								</div>
 							</td>
 						</tr>

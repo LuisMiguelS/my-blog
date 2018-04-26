@@ -4,14 +4,16 @@ namespace App;
 
 use App\Traits\FindSlug;
 use Spatie\Sluggable\HasSlug;
+use App\Traits\DatesTranslator;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
 use App\Presenters\Category\UrlPresenter;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 
 class Category extends Model
 {
-    use SoftDeletes, HasSlug, FindSlug;
+    use SoftDeletes, HasSlug, FindSlug, DatesTranslator, SoftCascadeTrait;
 
 	protected $fillable = [
 	    'name', 'slug'
@@ -20,6 +22,8 @@ class Category extends Model
     protected $appends = [
         'url'
     ];
+
+    protected $softCascade = ['posts'];
 
     public function setNameAttribute($name)
     {
@@ -46,8 +50,8 @@ class Category extends Model
         return new UrlPresenter($this);
     }
 
-    public function posts ()
+    public function posts()
     {
-    	return $this->hasMany(Post::class);
+        return $this->hasMany(Post::class);
     }
 }

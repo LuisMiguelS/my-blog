@@ -25,39 +25,49 @@
 <body>
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-        <div class="container">
+        <div class="container-fluid">
+                <a class="navbar-brand font-weight-bold" href="{{ url('/') }}">
+                    {{--<img src="{{ asset('recursos/imagenes/nav-logo.png') }}" width="30" height="30" class="d-inline-block align-top" alt="">--}}
+                    {{ config('app.name', 'Laravel') }}
+                </a>
 
-            <a class="navbar-brand" href="{{ url('/') }}">
-                <img src="{{ asset('recursos/imagenes/nav-logo.png') }}" width="30" height="30" class="d-inline-block align-top" alt="">
-                {{ config('app.name', 'Laravel') }}
-            </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-                @if(!$admin_nav)
-                    @include('partials.nav-menu')
-
-                    @include('partials.nav-search')
-                @else
-
-                    @include('partials.nav-menu-admin')
-                @endif
-
-            </div>
+                <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                    @if(!$admin_nav)
+                        @include('partials.nav-menu')
+                    @else
+                        @include('partials.nav-menu-admin')
+                    @endif
+                </div>
         </div>
     </nav>
+
+    @if(!$admin_nav && $hide)
+        @include('partials.search')
+    @endif
+
+
 
     <main class="py-4">
         @yield('content')
     </main>
+
+    @if($hide)
+        @include('partials.footer', ['category' => $category_footer])
+    @endif
+
 </div>
 
 <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+
+    @if(config('ads.script',false))
+        {!! config('ads.ads_script') !!}
+    @endif
+
     @yield('js')
 </body>
 </html>

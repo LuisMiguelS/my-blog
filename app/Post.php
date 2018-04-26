@@ -5,14 +5,16 @@ namespace App;
 use Carbon\Carbon;
 use App\Traits\FindSlug;
 use Spatie\Sluggable\HasSlug;
+use App\Traits\DatesTranslator;
 use Spatie\Sluggable\SlugOptions;
 use App\Presenters\Post\UrlPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use CyrildeWit\PageViewCounter\Traits\HasPageViewCounter;
 
 class Post extends Model
 {
-	use SoftDeletes, HasSlug, FindSlug;
+	use SoftDeletes, HasSlug, FindSlug, DatesTranslator, HasPageViewCounter;
 
 	const PUBLISHED = 'PUBLISHED';
 	const DRAFT = 'DRAFT';
@@ -136,6 +138,13 @@ class Post extends Model
     public function scopeCountPost($query, $status)
     {
         return $query->where('status', $status)->count();
+    }
+
+    public function scopeTypeRole($query)
+    {
+        return $query->unless(auth()->user()->isAdmin() || auth()->user()->isSuperAdmin(), function($q) {
+            $q->where('user_id', auth()->id());
+        });
     }
 
     public function scopePublished($query)

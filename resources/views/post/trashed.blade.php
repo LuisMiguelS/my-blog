@@ -2,21 +2,24 @@
 
 @component('component.content-admin')
 
-	<div class="card">
-	<h5 class="card-header">
-		<b>Posts Eliminados</b>
+	<div class="card shadow-sm">
+	<h5 class="card-header bg-white font-weight-bold">
+		Posts Eliminados
 		<a class="btn btn-primary" href="{{ route('posts.create') }}">Crear Post</a>
-		<a class="btn btn-outline-primary" href="{{ route('posts.index') }}">
+		<a class="btn btn-outline-secondary" href="{{ route('posts.index') }}">
 			Publicaciones
 		</a>
 	</h5>
-	<div class="card-body">
+	<div class="card-body bg-light">
+	<div class="card-body bg-light">
 		<div class="table-responsive">
 			<table class="table table-hover">
 				<thead>
 				<th>Imagen</th>
 				<th>Titulo</th>
 				<th>Autor</th>
+				<th>Fecha de publicacion</th>
+				<th>Fecha de actualizacion</th>
 				<th>Acciones</th>
 				</thead>
 
@@ -31,8 +34,12 @@
 
 							<td>{{ optional($trash->user)->name }}</td>
 
+							<td>{{ $trash->created_at->format('l d, F Y') }}</td>
+
+							<td>{{ $trash->updated_at->format('l d, F Y') }}</td>
+
 							<td>
-								<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<button class="btn bg-white shadow-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									Acciones
 								</button>
 								<div class="dropdown-menu">

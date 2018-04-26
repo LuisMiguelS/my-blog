@@ -2,14 +2,12 @@
 
 @component('component.content-admin')
 
-	<div class="card">
-		<h5 class="card-header">
-			<b>
-				Crear un nuevo usuario
-			</b>
+	<div class="card shadow-sm">
+		<h5 class="card-header bg-white font-weight-bold">
+			Crear un nuevo usuario
 		</h5>
 
-		<div class="card-body">
+		<div class="card-body bg-light">
 			{{ Form::open(['route' => 'users.store', 'method' => 'POST']) }}
 
 			<div class="form-group row">

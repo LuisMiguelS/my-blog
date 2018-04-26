@@ -7,9 +7,9 @@
 	<div class="row">
 		<div class="col-md-8">
 
-			<div class="card">
-				<div class="card-body">
-					<h6 class="card-title">
+			<div class="card shadow mb-5">
+				<div class="card-body bg-light">
+					<h6 class="card-title font-weight-bold">
 						Titulo Del Post
 						<small>Este es el título de tu publicacion</small>
 					</h6>
@@ -25,9 +25,9 @@
 				</div>
 			</div>
 
-			<div class="card">
-				<div class="card-body">
-					<h6 class="card-title">
+			<div class="card shadow mb-5">
+				<div class="card-body bg-light">
+					<h6 class="card-title font-weight-bold">
 						Contenido Del Post
 					</h6>
 					<div class="form-group">
@@ -42,9 +42,9 @@
 				</div>
 			</div>
 
-			<div class="card">
-				<div class="card-body">
-					<h6 class="card-title">
+			<div class="card shadow mb-5">
+				<div class="card-body bg-light">
+					<h6 class="card-title font-weight-bold">
 						Extracto <small>Pequeña descripción del post</small>
 					</h6>
 					<div class="form-group">
@@ -61,13 +61,13 @@
 
 
 		</div>
-		<div class="col-md-4" id="accordion">
+		<div class="col-md-4">
 
-			<div class="card">
-				<div class="card-header text-white bg-danger">
+			<div class="card shadow mb-5">
+				<div class="card-header text-white bg-danger font-weight-bold">
 					Detalles de publicación
 				</div>
-				<div class="card-body">
+				<div class="card-body bg-light ">
 					<div class="form-group">
 						{{ Form::label('status', __('Estado Del Post'), ['class' => '']) }}
 
@@ -107,11 +107,11 @@
 				</div>
 			</div>
 
-			<div class="card">
-				<div class="card-header text-white bg-success mb-3">
+			<div class="card shadow mb-5">
+				<div class="card-header text-white bg-success font-weight-bold">
 					Imagen Del Post
 				</div>
-				<div class="card-body">
+				<div class="card-body bg-light">
 					<div class="form-group">
 						{{ Form::file('image', ['class' => $errors->has('image') ? 'form-control is-invalid' : 'form-control', 'required' => false]) }}
 
@@ -124,11 +124,11 @@
 				</div>
 			</div>
 
-			<div class="card">
-				<div class="card-header text-white bg-primary mb-3">
+			<div class="card shadow mb-5">
+				<div class="card-header text-white bg-primary font-weight-bold">
 					SEO
 				</div>
-				<div class="card-body">
+				<div class="card-body bg-light">
 					<div class="form-group">
 						{{ Form::label('seo_title', __('Titulo SEO'), ['class' => '']) }}
 
@@ -168,7 +168,7 @@
 			</div>
 
 			<div class="form-group">
-				{{ Form::submit(__('Crear Post'), ['class' => 'btn btn-primary btn-block']) }}
+				{{ Form::submit(__('Crear Post'), ['class' => 'btn btn-primary btn-block font-weight-bold']) }}
 			</div>
 		</div>
 

@@ -2,11 +2,11 @@
 
 @component('component.content-admin')
 
-	<div class="card">
-		<h5 class="card-header">
-			<b>Crear Un Nuevo Tag</b>
+	<div class="card shadow-sm">
+		<h5 class="card-header bg-white font-weight-bold">
+			Crear Un Nuevo Tag
 		</h5>
-		<div class="card-body">
+		<div class="card-body bg-light">
 			{{ Form::open(['url' => 'admin/tags', 'method' => 'POST']) }}
 
 			<div class="form-group row">

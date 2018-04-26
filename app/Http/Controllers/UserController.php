@@ -54,7 +54,7 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, User $user)
     {
-        abort_if($user->beforeUpdate(), 403);
+        abort_if($user->beforeUpdate() && !auth()->user()->isSuperAdmin(), 403);
 
         $user->fill($request->validated())->save();
 
@@ -70,7 +70,7 @@ class UserController extends Controller
     {
         $this->authorize('delete', $user);
 
-        abort_if($user->beforeUpdate(), 403);
+        abort_if($user->beforeUpdate() && !auth()->user()->isSuperAdmin(), 403);
 
         $user->profile()->delete();
 

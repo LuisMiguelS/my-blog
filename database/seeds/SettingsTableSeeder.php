@@ -12,13 +12,13 @@ class SettingsTableSeeder extends Seeder
      */
     public function run()
     {
-        Setting::truncate();
+       /* Setting::truncate();
 
         Setting::create([
         	'site_name' => "Blog",
         	'Address' => 'Dom. Rep.',
         	'contact_number' => '999-999-999',
         	'contact_email' => 'blog@laravel.com'
-        ]);
+        ]);*/
     }
 }

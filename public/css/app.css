@@ -10390,29 +10390,29 @@ a.text-dark:focus {
 
 .navbar-laravel {
   background-color: #fff;
-  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.nav-link {
+  color: #636F7B;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  color: #1c2024 !important;
+  border-bottom: 2px solid #007bff;
 }
 
 .card {
-  margin-bottom: 20px !important;
   border: none !important;
-  -webkit-box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
-          box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
-}
-
-.card-shadow-light {
-  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-}
-
-.car-shadow-none {
-  -webkit-box-shadow: none !important;
-          box-shadow: none !important;
 }
 
 .card-header {
   border-bottom: none !important;
+}
+
+.app-sidebar-label {
+  color: #636F7B;
+  font-weight: 600;
 }
 
 .app-list-group-item {
@@ -10420,20 +10420,20 @@ a.text-dark:focus {
   display: block;
   padding: 0.55rem 0;
   margin-bottom: -1px;
-  color: #495057;
+  color: #1c2024;
   font-weight: bold;
 }
 
 .app-list-group-item:hover,
 .app-list-group-item:focus {
-  color: #2962FF;
+  color: #007bff;
   text-decoration: none;
   background-color: transparent;
 }
 
 .app-active {
   z-index: 2;
-  color: #2962FF;
+  color: #007bff;
   border: none;
 }
 
@@ -10482,6 +10482,21 @@ a.text-dark:focus {
   text-decoration: none !important;
 }
 
+.social-btn-round {
+  padding: 10px;
+  font-size: 15px;
+  text-align: center;
+  text-decoration: none;
+  margin: 5px 2px;
+  border-radius: 50%;
+}
+
+.social-btn-round:hover,
+.social-btn-round:focus {
+  opacity: 0.7;
+  text-decoration: none !important;
+}
+
 .fa-facebook-square {
   background: #3B5998;
   color: white;
@@ -10515,6 +10530,27 @@ a.text-dark:focus {
 .fa-pinterest {
   background: #cb2027;
   color: white;
+}
+
+/*
+ * Footer
+ */
+
+.blog-footer {
+  padding: 2.5rem 0;
+  color: #007bff;
+  font-weight: 600;
+  text-align: center;
+  background-color: #FFF;
+}
+
+.blog-footer p:last-child {
+  margin-bottom: 0;
+}
+
+.carousel-inner img {
+  width: 100%;
+  height: 100%;
 }
 
 

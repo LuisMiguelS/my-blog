@@ -2,17 +2,20 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Traits\DatesTranslator;
 use Illuminate\Support\Facades\Hash;
 use App\Presenters\User\UrlPresenter;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable, SoftDeletes;
+    use Notifiable, SoftDeletes, DatesTranslator, SoftCascadeTrait;
 
+    const SUPER_ADMIN_ROLE = "super admin";
     const ADMIN_ROLE = "admin";
     const AUTHOR_ROLE = "autor";
     const READER_ROLE = "lector";
@@ -38,6 +41,8 @@ class User extends Authenticatable
     protected $appends = [
         'url'
     ];
+
+    protected $softCascade = ['posts'];
 
     public function setPasswordAttribute($password)
     {
@@ -69,9 +74,19 @@ class User extends Authenticatable
         return new UrlPresenter($this);
     }
 
+    public function isSuperAdmin()
+    {
+        return $this->role === User::SUPER_ADMIN_ROLE;
+    }
+
     public function isAdmin()
     {
         return $this->role === User::ADMIN_ROLE;
+    }
+
+    public function isAuthor()
+    {
+        return $this->role === User::AUTHOR_ROLE;
     }
 
     public function owns(Model $model, $foreignKey = 'user_id')

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Requests\CreateCategoryRequest;
+use App\Post;
 
 class CategoryController extends Controller
 {
@@ -36,6 +37,13 @@ class CategoryController extends Controller
         $category = Category::create($request->validated());
 
         return back()->with(['success' => "¡Has creado una categoría: {$category->name} con éxito!"]);
+    }
+
+    public function show($category_slug)
+    {
+        $posts = Category::findBySlug($category_slug)->posts()->published();
+
+        return view('post.search', compact('posts'));
     }
 
     /**

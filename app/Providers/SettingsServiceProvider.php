@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use Config;
-use App\Setting;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,18 +15,24 @@ class SettingsServiceProvider extends ServiceProvider
     public function boot()
     {
         try{
-            $settings = Setting::first();
+            $settings = setting()->all();
 
-            Config::set('app.name', $settings->site_name);
+            config()->set('app.name', $settings['blog']['name']);
 
-            Config::set('app.contact', [
-                'phone' => $settings->contact_number,
-                'email' => $settings->contact_email,
-                'address' => $settings->address,
-            ]);
+            config()->set('blog',  $settings['blog']);
 
-        }catch (\Exception $e){
+            config()->set('disqus',$settings['disqus']);
+
+            config()->set('shareThis', $settings['shareThis']);
+
+            config()->set('ads', $settings['ads']);
+
+
+
+        }catch (\Exception $e) {
             //
         }
     }
+
+
 }

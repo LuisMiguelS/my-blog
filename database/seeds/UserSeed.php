@@ -18,7 +18,7 @@ class UserSeed extends Seeder
             'email' => 'admin@system.com',
             'name' => 'Administrador',
             'password' => '1',
-            'role' => User::ADMIN_ROLE,
+            'role' => User::SUPER_ADMIN_ROLE,
         ]);
 
         factory(User::class)->times(30)->create();

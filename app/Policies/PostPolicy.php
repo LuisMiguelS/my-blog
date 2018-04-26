@@ -17,7 +17,7 @@ class PostPolicy
      */
     public function view(User $user)
     {
-        return $user->role === User::AUTHOR_ROLE;
+        return $user->isAdmin() || $user->isAuthor();
     }
 
     /**
@@ -28,7 +28,7 @@ class PostPolicy
      */
     public function create(User $user)
     {
-        return $user->role === User::AUTHOR_ROLE;
+        return $user->isAdmin() || $user->isAuthor();
     }
 
     /**
@@ -40,7 +40,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post)
     {
-        return $user->owns($post);
+        return $user->isAdmin() || $user->owns($post);
     }
 
     /**
@@ -52,6 +52,6 @@ class PostPolicy
      */
     public function delete(User $user, Post $post)
     {
-        return $user->owns($post) && !$post->isPublished() && $user->role === User::AUTHOR_ROLE;
+        return $user->isAdmin() ||$user->owns($post) && !$post->isPublished() && $user->isAuthor();
     }
 }

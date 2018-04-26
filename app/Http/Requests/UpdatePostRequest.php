@@ -27,13 +27,13 @@ class UpdatePostRequest extends FormRequest
         return [
             'category_id' => 'required',
             'title' => 'required|min:20|max:255',
-            'seo_title' => 'min:20',
+            'seo_title' => 'nullable|min:20',
             'body' => 'required',
-            'image' => 'image:jpeg,png,gif,svg|max:5120',
+            'image' => 'nullable|image:jpeg,png,gif,svg|max:5120',
             'status' => 'required|in:' .Post::PUBLISHED. ',' .Post::DRAFT. ',' .Post::PENDING,
             'excerpt' => 'required|min:20',
-            'meta_description' => 'min:15',
-            'meta_keywords' => 'min:10',
+            'meta_description' => 'nullable|min:15',
+            'meta_keywords' => 'nullable|min:10',
         ];
     }
 }

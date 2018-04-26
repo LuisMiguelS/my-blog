@@ -4,20 +4,24 @@ namespace App;
 
 use App\Traits\FindSlug;
 use Spatie\Sluggable\HasSlug;
+use App\Traits\DatesTranslator;
 use Spatie\Sluggable\SlugOptions;
 use App\Presenters\Tag\UrlPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 
 class Tag extends Model
 {
-    use softDeletes, HasSlug, FindSlug;
+    use softDeletes, HasSlug, FindSlug, DatesTranslator, SoftCascadeTrait;
 
 	protected $fillable = ['tag', 'slug'];
 
     protected $appends = [
         'url'
     ];
+
+    protected $softCascade = ['posts'];
 
     public function setTagAttribute($tag)
     {

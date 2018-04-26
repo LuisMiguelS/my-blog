@@ -10,12 +10,12 @@
                 @foreach($posts as $post)
 
                     <div class="card mb-3">
-                        <a href="{{ url($post->category->slug. '/' .$post->slug) }}">
+                        <a href="{{ url( optional($post->category)->slug .'/'. $post->slug ) }}">
                             <img class="card-img-top" src="{{ $post->image }}" height="400">
                         </a>
 
                         <div class="card-body">
-                            <a href="{{ url($post->category->slug. '/' .$post->slug) }}">
+                            <a href="{{ url( optional($post->category)->slug .'/'. $post->slug ) }}">
                                 <h5 class="card-title">{{ $post->title }}</h5>
                             </a>
 
@@ -23,7 +23,7 @@
                                 {{ $post->excerpt }}
                             </p>
 
-                            <a href="{{ url($post->category->slug. '/' .$post->slug) }}">
+                            <a href="{{ url( optional($post->category)->slug .'/'. $post->slug ) }}">
                                 <small class="card-text">
                                     Leer mas...
                                 </small>
@@ -35,7 +35,9 @@
                 @endforeach
 
             @else
-                <h3>No hay Resultados....</h3>
+                <div class="alert alert-info font-weight-bold" role="alert">
+                    No hay Resultados para la busqueda.
+                </div>
             @endif
 
 

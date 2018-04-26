@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\{Post, Tag, Category};
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\UpdatePostRequest;
@@ -18,9 +19,9 @@ class PostController extends Controller
     {
         $this->authorize('view', Post::class);
 
-        $posts = Post::unless(auth()->user()->isAdmin(), function($q) {
-                $q->where('user_id', auth()->id());
-            })->published();
+
+
+        $posts = Post::typeRole()->published();
 
         $drafts = Post::where('user_id', auth()->id())
             ->CountPost(Post::DRAFT);
@@ -51,6 +52,8 @@ class PostController extends Controller
 
         abort_unless($post->postInCategory($category_slug), Response::HTTP_NOT_FOUND);
 
+        $post->addPageViewThatExpiresAt(Carbon::now()->addHours(1));
+
         return view('post.show', compact('post'));
     }
 
@@ -72,7 +75,7 @@ class PostController extends Controller
             $post->tags()->syncWithoutDetaching($request->tags);
         }
 
-        return back()->with(['success' => "Post: {$post->tile} created succesfully"]);
+        return back()->with(['success' => "Publicación: {$post->tile} creado con éxito"]);
     }
 
     /**
@@ -111,7 +114,7 @@ class PostController extends Controller
             $post->tags()->syncWithoutDetaching($request->tags);
         }
 
-        return back()->with(['success' => "La publicación: {$post->title}  se ha actualizado con éxito."]);
+        return back()->with(['success' => "publicación: {$post->title}  actualizado con éxito."]);
     }
 
     /**
@@ -142,9 +145,7 @@ class PostController extends Controller
 
         $drafts = Post::draft();
 
-        $posts = Post::unless(auth()->user()->isAdmin(), function($q) {
-            $q->where('user_id', auth()->id());
-        })->CountPost(Post::PUBLISHED);
+        $posts = Post::typeRole()->CountPost(Post::PUBLISHED);
 
         return view('post.draft', compact('posts', 'drafts'));
     }
@@ -175,7 +176,7 @@ class PostController extends Controller
 
         $post->restore();
 
-        return back()->with(['success' => "La publicación: {$post->title}  fue restaurada correctamente."]);
+        return back()->with(['success' => "Publicación: {$post->title} restaurada correctamente."]);
     }
 
     /**
@@ -191,6 +192,6 @@ class PostController extends Controller
 
         $post->forceDelete();
 
-        return back()->with(['success' => "La publicación: {$post->title}  fue borrada de forma permanente."]);
+        return back()->with(['success' => "Publicación: {$post->title} borrada de forma permanente."]);
     }
 }

@@ -7,9 +7,9 @@
 	<div class="row">
 
 		<div class="col-md-8">
-			<div class="card">
-				<div class="card-body">
-					<h6 class="card-title">
+			<div class="card shadow mb-5">
+				<div class="card-body bg-light">
+					<h6 class="card-title font-weight-bold">
 						Titulo Del Post
 						<small>Este es el título de tu publicacion</small>
 					</h6>
@@ -25,9 +25,9 @@
 				</div>
 			</div>
 
-			<div class="card">
-				<div class="card-body">
-					<h6 class="card-title">
+			<div class="card shadow mb-5">
+				<div class="card-body bg-light">
+					<h6 class="card-title font-weight-bold">
 						Contenido Del Post
 					</h6>
 					<div class="form-group">
@@ -42,9 +42,9 @@
 				</div>
 			</div>
 
-			<div class="card">
-				<div class="card-body">
-					<h6 class="card-title">
+			<div class="card shadow mb-5">
+				<div class="card-body bg-light">
+					<h6 class="card-title font-weight-bold">
 						Extracto <small>Pequeña descripción del post</small>
 					</h6>
 					<div class="form-group">
@@ -62,22 +62,27 @@
 		</div>
 		<div class="col-md-4">
 
-			<div class="card">
-				<div class="card-header text-white bg-danger">
+			<div class="card bg-light shadow mb-5">
+				<div class="card-header text-white bg-danger font-weight-bold">
 					Detalles de publicación
 				</div>
 				<div class="card-body">
-					<div class="form-group">
-						{{ Form::label('status', __('Estado Del Post'), ['class' => '']) }}
 
-						{{ Form::select('status', [\App\Post::DRAFT => 'Borrador', \App\Post::PUBLISHED => 'Publicado'], old('status'),  ['class' => $errors->has('status') ? 'form-control is-invalid' : 'form-control'] ) }}
+                    @unless(auth()->user()->isAuthor() && $post->status === \App\Post::PUBLISHED)
+						<div class="form-group">
+							{{ Form::label('status', __('Estado Del Post'), ['class' => '']) }}
 
-						@if ($errors->has('status'))
-							<span class="invalid-feedback">
+							{{ Form::select('status', [\App\Post::DRAFT => 'Borrador', \App\Post::PUBLISHED => 'Publicado'], old('status'),  ['class' => $errors->has('status') ? 'form-control is-invalid' : 'form-control'] ) }}
+
+							@if ($errors->has('status'))
+								<span class="invalid-feedback">
 								<strong>{{ $errors->first('status') }}</strong>
 							</span>
-						@endif
-					</div>
+							@endif
+						</div>
+					@else
+						{{ Form::hidden('status') }}
+					@endunless
 
 					<div class="form-group">
 						{{ Form::label('category_id', __('Categoria'), ['class' => '']) }}
@@ -106,8 +111,8 @@
 				</div>
 			</div>
 
-			<div class="card">
-				<div class="card-header text-white bg-success mb-3">
+			<div class="card bg-light shadow mb-5">
+				<div class="card-header text-white bg-success font-weight-bold">
 					Imagen Del Post
 				</div>
 				<div class="card-body">
@@ -125,8 +130,8 @@
 				</div>
 			</div>
 
-			<div class="card">
-				<div class="card-header text-white bg-primary mb-3">
+			<div class="card bg-light shadow mb-5" >
+				<div class="card-header text-white bg-primary font-weight-bold">
 					SEO
 				</div>
 				<div class="card-body">
@@ -145,7 +150,7 @@
 					<div class="form-group">
 						{{ Form::label('meta_description', __('Meta Description'), ['class' => '']) }}
 
-						{{ Form::textarea('meta_description', old('meta_description'), ['class' => $errors->has('meta_description') ? 'form-control is-invalid' : 'form-control', 'required' => true, 'rows' => 2]) }}
+						{{ Form::textarea('meta_description', old('meta_description'), ['class' => $errors->has('meta_description') ? 'form-control is-invalid' : 'form-control', 'rows' => 2]) }}
 
 						@if ($errors->has('meta_description'))
 							<span class="invalid-feedback">
@@ -157,7 +162,7 @@
 					<div class="form-group">
 						{{ Form::label('meta_keywords', __('Meta Kewwords'), ['class' => '']) }}
 
-						{{ Form::textarea('meta_keywords', old('meta_keywords'), ['class' => $errors->has('meta_keywords') ? 'form-control is-invalid' : 'form-control', 'required' => true, 'rows' => 2]) }}
+						{{ Form::textarea('meta_keywords', old('meta_keywords'), ['class' => $errors->has('meta_keywords') ? 'form-control is-invalid' : 'form-control', 'rows' => 2]) }}
 
 						@if ($errors->has('meta_keywords'))
 							<span class="invalid-feedback">
@@ -169,7 +174,7 @@
 			</div>
 
 			<div class="form-group">
-				{{ Form::submit(__('Editar Post'), ['class' => 'btn btn-primary  btn-block']) }}
+				{{ Form::submit(__('Editar Post'), ['class' => 'btn btn-primary  btn-block font-weight-bold']) }}
 			</div>
 
 		</div>

@@ -2,11 +2,11 @@
 
 @component('component.content-admin')
 
-	<div class="card">
-		<h5 class="card-header">
-			<b>Editar Categoria {{ $category->name }}</b>
+	<div class="card shadow-sm">
+		<h5 class="card-header bg-white font-weight-bold">
+			Editar Categoria {{ $category->name }}
 		</h5>
-		<div class="card-body">
+		<div class="card-body bg-light">
 			{{ Form::open(['url' => $category->url->update, 'method' => 'PUT']) }}
 
 			<div class="form-group row">
