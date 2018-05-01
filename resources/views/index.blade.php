@@ -2,17 +2,17 @@
 
 @section('content')
 
-    <div class="container-fluid">
+    <div class="container">
 
         <div class="row justify-content-center" style="padding-bottom: 5rem">
             <div class="col-md-8">
                 @if($carousel->count())
-                    @include('partials.carousel', ['carousel' => $carousel])
+                    @include('partials.carousel', ['carousel' => $carousel->take(5)->all()])
                 @endif
             </div>
 
             <div class="col-md-4">
-                @foreach($sideCarousel as $post)
+                @foreach($carousel->take(-2)->all() as $post)
                     <div class="card card-shadow-light mb-4">
                         <a href="{{ url( optional($post->category)->slug .'/'. $post->slug ) }}">
                             <img class="card-img" src="{{ $post->image }}">
@@ -27,26 +27,35 @@
         </div>
 
         <div class="row">
-            <div class="col-md-4">
-                @if($ramdom_posts->count())
-                    <h4 class="font-italic font-weight-bold text-center">Ultimas Publicaciones</h4>
-                    <hr>
-                    @include('partials.card', ['posts' => $lastPost])
-                @endif
+            <div class="col-md-8">
+                @foreach($categories as $index => $category)
+                    @include('partials.home', ['category' => $category, 'color' => $index])
+                @endforeach
             </div>
-
-            <div class="col-md-4">
-                @if($ramdom_posts->count())
-                    <h4 class="font-italic font-weight-bold text-center">Quizas Te Pueda Interesar</h4>
-                    <hr>
-                    @include('partials.card', ['posts' => $ramdom_posts])
-                @endif
-            </div>
-
             <div class="col-md-4">
                 @include('partials.sidebar')
             </div>
         </div>
+
     </div>
 
+@endsection
+
+@section('css')
+ <style>
+     .navbar-brand {
+         color: #fff !important;
+     }
+     .navbar-laravel {
+         background-color: #232323;
+     }
+     .nav-link {
+         color: #FFF !important;
+     }
+     .nav-link:hover,
+     .nav-link:focus{
+         color: #FFF !important;
+         border-bottom: 2px solid #FFF !important;
+     }
+ </style>
 @endsection

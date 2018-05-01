@@ -29,24 +29,18 @@ class ViewComposerServiceProvider extends ServiceProvider
     {
         view()->composer('index', function ($view) {
 
-            $ramdom_posts = $this->ramdomPost();
-
             $carousel = Post::with(['category:id,slug,name'])
                 ->where('status', Post::PUBLISHED)
                 ->orderBy('id','DESC')
-                ->take(5)->get();
+                ->take(7)->get();
 
-            $sideCarousel = Post::with(['category:id,slug,name'])
-                ->where('status', Post::PUBLISHED)
-                ->orderBy('id','DESC')
-                ->skip(5)->take(2)->get();
+            $categories = Category::whereHas('posts', function ($query) {
+                $query->where('status', Post::PUBLISHED);
+            })->with(['posts' => function($query) {
+                $query->orderBy('id','DESC')->take(50);
+            }])->limit(5)->get();
 
-            $lastPost = Post::with(['category:id,slug,name'])
-                ->where('status', Post::PUBLISHED)
-                ->orderBy('id','DESC')
-                ->skip(7)->take(15)->get();
-
-            $view->with(compact('carousel', 'sideCarousel', 'lastPost', 'ramdom_posts'));
+            $view->with(compact('carousel', 'categories'));
         });
     }
 
@@ -64,19 +58,14 @@ class ViewComposerServiceProvider extends ServiceProvider
                 $admin_nav =  request()->route()->getPrefix() === '/admin';
             }
 
-            $ramdom_posts = $this->ramdomPost();
+            $ramdom_posts = Post::with(['category:id,slug'])
+                ->where('status', Post::PUBLISHED)
+                ->orderBy(DB::raw('RAND()'))->take(15)->get();
 
             $category_footer = Category::pluck('name', 'slug');
 
             $view->with(compact('hide', 'admin_nav', 'ramdom_posts', 'category_footer'));
         });
-    }
-
-    private function ramdomPost()
-    {
-        return Post::with(['category:id,slug'])
-            ->where('status', Post::PUBLISHED)
-            ->orderBy(DB::raw('RAND()'))->take(15)->get();
     }
 
     private function sidebar()
@@ -87,6 +76,10 @@ class ViewComposerServiceProvider extends ServiceProvider
 
             $tags = Tag::orderBy('id','DESC')->pluck('slug', 'tag')->take(50);
 
+            $lastPost = Post::with(['category:id,slug,name'])
+                ->where('status', Post::PUBLISHED)
+                ->orderBy('id','DESC')
+                ->take(20)->get();
 
             $post_most_seen = Post::with(['category:id,slug'])
                 ->where('status', Post::PUBLISHED)
@@ -96,7 +89,7 @@ class ViewComposerServiceProvider extends ServiceProvider
                     return $posts->getPageViews();
                 });
 
-            $view->with(compact('archives', 'tags', 'post_most_seen'));
+            $view->with(compact('archives', 'tags', 'post_most_seen', 'lastPost'));
 
         });
     }
@@ -105,11 +98,9 @@ class ViewComposerServiceProvider extends ServiceProvider
     {
         view()->composer('partials.nav-menu', function ($view) {
 
-            $firts_4_categories = Category::pluck('name', 'slug')->take(10);
+            $categories = Category::pluck('name', 'slug')->take(30);
 
-            $others_categories = Category::select('name', 'slug')->skip(10)->take(10)->pluck('name', 'slug');
-
-            $view->with(compact('firts_4_categories', 'others_categories'));
+            $view->with(compact('categories'));
         });
     }
 }

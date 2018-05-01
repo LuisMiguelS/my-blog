@@ -11,7 +11,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title') {{ config('app.name', 'Laravel') }}</title>
+    <title>@yield('title') {{  setting()->get('blog.site_name') ?? 'Laravel'  }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -25,10 +25,10 @@
 <body>
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-        <div class="container-fluid">
+        <div class="container">
                 <a class="navbar-brand font-weight-bold" href="{{ url('/') }}">
                     {{--<img src="{{ asset('recursos/imagenes/nav-logo.png') }}" width="30" height="30" class="d-inline-block align-top" alt="">--}}
-                    {{ config('app.name', 'Laravel') }}
+                    {{ setting()->get('blog.site_name' ?? 'Laravel') }}
                 </a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +56,7 @@
     </main>
 
     @if($hide)
-        @include('partials.footer', ['category' => $category_footer])
+        @include('partials.footer', ['category' => $category_footer, 'ramdom' => $ramdom_posts])
     @endif
 
 </div>
@@ -64,8 +64,15 @@
 <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
 
-    @if(config('ads.script',false))
-        {!! config('ads.ads_script') !!}
+    <script>
+
+        $('.deleteConfirmation').click(() => {
+            return confirm('¿Estás seguro?, ¡Se eliminaran tambien los registros que dependen de este!');
+        });
+    </script>
+
+    @if(setting()->get('ads.script',false))
+        {!! setting()->get('ads.ads_script') !!}
     @endif
 
     @yield('js')

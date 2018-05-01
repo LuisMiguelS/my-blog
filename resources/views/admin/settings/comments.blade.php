@@ -28,7 +28,7 @@
                 {{ Form::label('disqus_bloque', __('Disqus Bloque'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
 
                 <div class="col-md-6">
-                    {{ Form::textarea('disqus_bloque', old('disqus_bloque', config('disqus.bloque')), ['class' => $errors->has('disqus_bloque') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
+                    {{ Form::textarea('disqus_bloque', old('disqus_bloque', setting()->get('disqus.disqus_bloque')), ['class' => $errors->has('disqus_bloque') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
 
                     @if ($errors->has('disqus_bloque'))
                         <span class="invalid-feedback">
@@ -42,7 +42,7 @@
                 {{ Form::label('disqus_script', __('Disqus Script'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
 
                 <div class="col-md-6">
-                    {{ Form::textarea('disqus_script', old('disqus_script', config('disqus.script')), ['class' => $errors->has('disqus_script') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
+                    {{ Form::textarea('disqus_script', old('disqus_script', setting()->get('disqus.disqus_script')), ['class' => $errors->has('disqus_script') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
 
                     @if ($errors->has('disqus_script'))
                         <span class="invalid-feedback">

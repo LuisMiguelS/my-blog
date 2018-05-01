@@ -21,12 +21,12 @@ class HomeController extends Controller
 
     public function search()
     {
-        $campos = request()->validate([
-            'q' => 'required|min:4|max:255'
+        $search = request()->validate([
+            'q' => 'required|min:3|max:255'
         ]);
 
-        $posts = Post::search($campos['q'])->published();
+        $posts = Post::search($search['q'])->published();
 
-        return view('post.search', compact('posts'));
+        return view('post.search', compact('posts', 'search'));
     }
 }

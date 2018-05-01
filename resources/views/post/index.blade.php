@@ -24,7 +24,7 @@
 					<th>Imagen</th>
 					<th>Titulo</th>
 					<th>Autor</th>
-					<th>Fecha de publicacion</th>
+					<th>Fecha de creacion</th>
 					<th>Fecha de actualizacion</th>
 					<th>Acciones</th>
 					</thead>
@@ -59,7 +59,7 @@
 
 										@can('delete', $post)
 											{{ Form::open(['url' => $post->url->delete, 'method' => 'DELETE']) }}
-											{{ Form::submit(__('Eliminar'), ['class' => 'dropdown-item']) }}
+											{{ Form::submit(__('Eliminar'), ['class' => 'dropdown-item deleteConfirmation']) }}
 											{{ Form::close() }}
 										@endcan
 									</div>

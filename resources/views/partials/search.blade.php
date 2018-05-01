@@ -5,14 +5,14 @@
             </iframe>
         </div>
         <div class="col-md-6">
-            {!! config('ads.ads_top') !!}
+            {!! setting()->get('ads.ads_top') !!}
         </div>
         <div class="col-md-3">
             <form class="ml-3 my-auto d-inline w-100" action="{{ url('search') }}" method="get">
                 <div class="input-group">
-                    <input type="text" class="border-right-0 {{ $errors->has('q') ? 'form-control is-invalid' : 'form-control' }}" name="q" value="{{ old('q') }}">
+                    <input type="text" class="border-right-0 {{ $errors->has('q') ? 'form-control is-invalid' : 'form-control' }}" name="q" value="{{ old('q') }}" placeholder="BUSQUEDA">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-primary border-left-0" type="submit">
+                        <button class="btn btn-outline-dark border-left-0" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Setting;
+use Symfony\Component\HttpFoundation\Response;
 
 class SettingController extends Controller
 {
     private $methods = [
-        'blog' => 'blogBasic',
+        'blog' => 'blogConfig',
         'disqus' => 'disqusComment',
         'ads' => 'ads',
         'shareThis' => 'shareButton'
@@ -60,17 +60,21 @@ class SettingController extends Controller
 
     public function update($json)
     {
-        $this->{$this->methods[$json]}();
+        if (isset($this->methods[$json])) {
+            $this->{$this->methods[$json]}();
 
-    	return back()->with(['success' => 'Configuraciones actualizadas con éxito']);
+            return back()->with(['success' => 'Configuraciones actualizadas con éxito']);
+        }
+        abort(409, 'Conflic');
+
     }
 
-    private function blogBasic()
+    private function blogConfig()
     {
         $campos = request()->validate([
             'site_name' => 'required',
             'contact_number' => 'required',
-            'contact_email' => 'required',
+            'contact_email' => 'required|email',
             'address' => 'required',
             'blog_facebook' => 'nullable|url',
             'blog_instagram' => 'nullable|url',
@@ -78,16 +82,7 @@ class SettingController extends Controller
             'blog_youtube' => 'nullable|url',
         ]);
 
-        setting()->set('blog', [
-            'name' => $campos['site_name'],
-            'contact_number' => $campos['contact_number'],
-            'contact_email' => $campos['contact_email'],
-            'address' => $campos['address'],
-            'facebook' => $campos['blog_facebook'],
-            'instagram' => $campos['blog_instagram'],
-            'twitter' => $campos['blog_twitter'],
-            'youtube' => $campos['blog_youtube'],
-        ]);
+        setting()->set('blog', $this->removeNullvalue($campos));
 
         setting()->save();
     }
@@ -99,10 +94,7 @@ class SettingController extends Controller
             'disqus_script' => 'required',
         ]);
 
-        setting()->set('disqus', [
-            'bloque' => $campos['disqus_bloque'],
-            'script' => $campos['disqus_script'],
-        ]);
+        setting()->set('disqus', $campos);
 
         setting()->save();
     }
@@ -116,12 +108,7 @@ class SettingController extends Controller
             'ads_script' => 'required'
         ]);
 
-        setting()->set('ads', [
-            'ads_top' => $campos['ads_top'],
-            'ads_side' => $campos['ads_side'],
-            'ads_bottom' => $campos['ads_bottom'],
-            'ads_script' => $campos['ads_script'],
-        ]);
+        setting()->set('ads', $campos);
 
         setting()->save();
     }
@@ -133,11 +120,15 @@ class SettingController extends Controller
             'share_script' => 'required',
         ]);
 
-        setting()->set('shareThis', [
-            'bloque' => $campos['share_block'],
-            'script' => $campos['share_script'],
-        ]);
+        setting()->set('shareThis', $campos);
 
         setting()->save();
+    }
+
+    private function removeNullvalue($array)
+    {
+        return collect($array)->filter(function($value) {
+           return $value !== null;
+        })->toArray();
     }
 }

@@ -16,7 +16,7 @@
             <div class="card shadow-sm mb-5">
                 <img class="card-img-top" src="{{ $post->image }}" alt="{{ $post->title }}">
                 <div class="card-body">
-                    {!! config('shareThis.bloque') !!}
+                    {!! setting()->get('shareThis.share_block') !!}
 
                     <h5 class="card-title">{{  $post->title }}</h5>
                     <p class="card-text"><small class="text-muted font-weight-bold">{{ $post->created_at->format('l d, F Y') }}</small>
@@ -56,7 +56,7 @@
 
             <div class="card shadow-sm">
                 <div class="card-body">
-                    {!! config('disqus.bloque') !!}
+                    {!! setting()->get('disqus.disqus_bloque') !!}
                 </div>
             </div>
 
@@ -66,6 +66,25 @@
 @endcomponent
 
 @section('js')
-    {!! config('shareThis.script') !!}
-    {!! config('disqus.script') !!}
+    {!! setting()->get('shareThis.share_script') !!}
+    {!! setting()->get('disqus.disqus_script') !!}
+@endsection
+
+@section('css')
+    <style>
+        .navbar-brand {
+            color: #fff !important;
+        }
+        .navbar-laravel {
+            background-color: #232323;
+        }
+        .nav-link {
+            color: #FFF !important;
+        }
+        .nav-link:hover,
+        .nav-link:focus{
+            color: #FFF !important;
+            border-bottom: 2px solid #FFF !important;
+        }
+    </style>
 @endsection

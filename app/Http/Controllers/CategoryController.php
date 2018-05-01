@@ -43,7 +43,9 @@ class CategoryController extends Controller
     {
         $posts = Category::findBySlug($category_slug)->posts()->published();
 
-        return view('post.search', compact('posts'));
+        $search = ['q' => $category_slug];
+
+        return view('post.search', compact('posts', 'search'));
     }
 
     /**

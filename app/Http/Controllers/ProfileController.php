@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdateProfileRequest;
 use App\Profile;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\ChangePasswordRequest;
+use App\Http\Requests\UpdateProfileRequest;
 
 class ProfileController extends Controller
 {
@@ -35,5 +36,11 @@ class ProfileController extends Controller
         }
 
         return back()->with(['success' => 'Account profile has been updated successfully.']);
+    }
+
+    public function changePassword(ChangePasswordRequest $request)
+    {
+        auth()->user()->update($request->validated());
+        return redirect()->back();
     }
 }

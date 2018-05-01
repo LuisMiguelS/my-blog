@@ -12,6 +12,8 @@
 			<table class="table table-hover">
 				<thead>
 				<th>Tag</th>
+				<th>Fecha de creacion</th>
+				<th>Fecha de actualizacion</th>
 				<th>Acciones</th>
 				</thead>
 
@@ -21,6 +23,10 @@
 					@foreach($tags as $tag)
 						<tr>
 							<td>{{ $tag->tag }}</td>
+
+							<td>{{ $tag->created_at->format('l d, F Y') }}</td>
+
+							<td>{{ $tag->updated_at->format('l d, F Y') }}</td>
 
 							<td>
 								<button class="btn bg-white shadow-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -33,7 +39,7 @@
 
 									@can('delete', $tag)
 										{{ Form::open(['url' => url($tag->url->delete), 'method' => 'DELETE']) }}
-										{{ Form::submit(__('Eliminar'), ['class' => 'dropdown-item']) }}
+										{!! Form::submit(__('Eliminar'), ['class' => 'dropdown-item deleteConfirmation']) !!}
 										{{ Form::close() }}
 									@endcan
 
@@ -44,7 +50,7 @@
 
 				@else
 					<tr>
-						<th colspan="5" class="text-center">No Tags Yet.</th>
+						<th colspan="5" class="text-center">Sin tags todavía.</th>
 					</tr>
 				@endif
 				</tbody>

@@ -41,22 +41,13 @@ class CreateAdmin extends Command
      */
     public function handle()
     {
-        $name = 'Admin';
-        $email = $this->ask('What is your email?');
-        $password = $this->secret('What is your password?');
+        $name = $this->ask('What is your name ?');
+        $email = $this->ask('What is your email ?');
+        $password = $this->secret('What is your password ?');
+        $role = User::SUPER_ADMIN_ROLE;
 
-        $admin = User::create(compact('name','email', 'password'));
+        User::create(compact('name','email', 'password', 'role'));
 
-        (new PermissionInstall())->install();
-        (new RolesInstall())->install();
-
-        $roles = Role::firstOrCreate(
-            ['name' => User::ADMIN_ROLE],
-            ['name' => User::ADMIN_ROLE]
-        );
-
-        $admin->assignRole($roles);
-
-        $this->info("Usuario creado: {$name}, email:<{$email}>");
+        $this->info("Usuario administrador creado. Nombre: {$name}, Email:{$email}");
     }
 }

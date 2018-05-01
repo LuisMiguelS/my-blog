@@ -35,6 +35,7 @@ Route::resource('users', 'UserController')->except('show');
 /*
  * Profile
  */
+Route::put('profile/change/password', 'ProfileController@changePassword')->name('users.change.password');
 Route::resource('profile', 'ProfileController')->only(['index','update']);
 
 /*

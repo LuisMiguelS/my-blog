@@ -1,25 +1,22 @@
 <!-- Left Side Of Navbar -->
 <ul class="navbar-nav mr-auto font-weight-bold">
 
-    @foreach($firts_4_categories as $slug => $category)
+    @foreach($categories->take(10)->all() as $slug => $category)
         <li class="nav-item">
             <a class="nav-link" href="{{ url($slug) }}">{{ $category }} <span class="sr-only">(current)</span></a>
         </li>
     @endforeach
 
-    @if($others_categories->count())
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Otras sesiónes
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                @foreach($others_categories as $slug => $category)
-                    <a class="dropdown-item" href="{{ $slug }}">{{ $category }}</a>
-                @endforeach
-                <a class="dropdown-item" href="">Ver todas las sesiónes</a>
-            </div>
-        </li>
-    @endif
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Otras categorias
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            @foreach($categories->take(-20)->all() as $slug => $category)
+                <a class="dropdown-item" href="{{ $slug }}">{{ $category }}</a>
+            @endforeach
+        </div>
+    </li>
 
 </ul>
 

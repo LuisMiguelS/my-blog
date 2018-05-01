@@ -13,6 +13,8 @@
 				<th>Avatar</th>
 				<th>Nombre</th>
 				<th>Rol</th>
+				<th>Fecha de creacion</th>
+				<th>Fecha de actualizacion</th>
 				<th>Acciones</th>
 				</thead>
 
@@ -29,6 +31,10 @@
 								{{ $user->role }}
 							</td>
 
+							<td>{{ $user->created_at->format('l d, F Y') }}</td>
+
+							<td>{{ $user->updated_at->format('l d, F Y') }}</td>
+
 							<td>
 								<button class="btn bg-white shadow-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									Acciones
@@ -40,7 +46,7 @@
 
 									@can('delete', $user)
 										{{ Form::open(['url' => $user->url->delete, 'method' => 'DELETE']) }}
-										{{ Form::submit(__('Eliminar'), ['class' => 'dropdown-item']) }}
+										{{ Form::submit(__('Eliminar'), ['class' => 'dropdown-item deleteConfirmation']) }}
 										{{ Form::close() }}
 									@endcan
 

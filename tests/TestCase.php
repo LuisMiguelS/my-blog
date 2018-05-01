@@ -9,6 +9,12 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
+    protected function createSuperAdmin()
+    {
+        return factory(User::class)->create([
+            'role' => User::SUPER_ADMIN_ROLE
+        ]);
+    }
     protected function createAdmin()
     {
         return factory(User::class)->states(User::ADMIN_ROLE)->create();

@@ -25,7 +25,7 @@
                 {{ Form::label('ads_top', __('Bloque de anucio Superior'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
 
                 <div class="col-md-6">
-                    {{ Form::textarea('ads_top', old('ads_top', config('ads.ads_top')), ['class' => $errors->has('ads_top') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
+                    {{ Form::textarea('ads_top', old('ads_top', setting()->get('ads.ads_top')), ['class' => $errors->has('ads_top') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
 
                     @if ($errors->has('ads_top'))
                         <span class="invalid-feedback">
@@ -39,7 +39,7 @@
                 {{ Form::label('ads_side', __('Bloque de anucio lateral'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
 
                 <div class="col-md-6">
-                    {{ Form::textarea('ads_side', old('disqus_script', config('ads.ads_side')), ['class' => $errors->has('ads_side') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
+                    {{ Form::textarea('ads_side', old('ads_side', setting()->get('ads.ads_side')), ['class' => $errors->has('ads_side') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
 
                     @if ($errors->has('ads_side'))
                         <span class="invalid-feedback">
@@ -53,7 +53,7 @@
                 {{ Form::label('ads_bottom', __('Bloque de anucio inferior'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
 
                 <div class="col-md-6">
-                    {{ Form::textarea('ads_bottom', old('ads_bottom', config('ads.ads_bottom')), ['class' => $errors->has('ads_bottom') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
+                    {{ Form::textarea('ads_bottom', old('ads_bottom', setting()->get('ads.ads_bottom')), ['class' => $errors->has('ads_bottom') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
 
                     @if ($errors->has('ads_bottom'))
                         <span class="invalid-feedback">
@@ -67,7 +67,7 @@
                 {{ Form::label('ads_script', __('Script del anucio'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
 
                 <div class="col-md-6">
-                    {{ Form::textarea('ads_script', old('ads_script', config('ads.ads_script')), ['class' => $errors->has('ads_script') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
+                    {{ Form::textarea('ads_script', old('ads_script', setting()->get('ads.ads_script')), ['class' => $errors->has('ads_script') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
 
                     @if ($errors->has('ads_script'))
                         <span class="invalid-feedback">

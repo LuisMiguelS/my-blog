@@ -13,6 +13,8 @@
 			<table class="table table-hover">
 				<thead>
 				<th>Category name</th>
+				<th>Fecha de creacion</th>
+				<th>Fecha de actualizacion</th>
 				<th>Acciones</th>
 				</thead>
 
@@ -22,6 +24,10 @@
 					@foreach($categories as $category)
 						<tr>
 							<td>{{ $category->name }}</td>
+
+							<td>{{ $category->created_at->format('l d, F Y') }}</td>
+
+							<td>{{ $category->updated_at->format('l d, F Y') }}</td>
 
 							<td>
 								<button class="btn bg-white shadow-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -34,7 +40,7 @@
 
 									@can('delete', $category)
 										{{ Form::open(['url' => $category->url->delete, 'method' => 'DELETE']) }}
-										{{ Form::submit(__('Eliminar'), ['class' => 'dropdown-item']) }}
+										{{ Form::submit(__('Eliminar'), ['class' => 'dropdown-item deleteConfirmation']) }}
 										{{ Form::close() }}
 									@endcan
 								</div>

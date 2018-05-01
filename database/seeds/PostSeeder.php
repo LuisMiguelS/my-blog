@@ -14,6 +14,8 @@ class PostSeeder extends Seeder
     {
         Post::truncate();
 
-        factory(Post::class)->times(30)->create();
+        factory(Post::class)->times(100)->create([
+            'status' => Post::PUBLISHED
+        ]);
     }
 }

@@ -179,5 +179,4 @@ class Post extends Model
             ->firstOrFail();
     }
 
-
 }

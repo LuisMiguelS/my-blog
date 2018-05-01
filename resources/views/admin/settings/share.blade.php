@@ -28,7 +28,7 @@
                 {{ Form::label('share_block', __('Bloque de codigo'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
 
                 <div class="col-md-6">
-                    {{ Form::textarea('share_block', old('share_block', config('shareThis.bloque')), ['class' => $errors->has('share_block') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
+                    {{ Form::textarea('share_block', old('share_block', setting()->get('shareThis.share_block')), ['class' => $errors->has('share_block') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
 
                     @if ($errors->has('share_block'))
                         <span class="invalid-feedback">
@@ -42,7 +42,7 @@
                 {{ Form::label('share_script', __('ShareThis Script'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
 
                 <div class="col-md-6">
-                    {{ Form::textarea('share_script', old('share_script', config('shareThis.script')), ['class' => $errors->has('share_script') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
+                    {{ Form::textarea('share_script', old('share_script', setting()->get('shareThis.share_script')), ['class' => $errors->has('share_script') ? 'form-control is-invalid' : 'form-control', 'required' => true]) }}
 
                     @if ($errors->has('share_script'))
                         <span class="invalid-feedback">

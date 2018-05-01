@@ -2,7 +2,7 @@
 
 @component('component.content-admin')
 
-	<div class="card shadow-sm">
+	<div class="card shadow-sm mb-5">
 		<h5 class="card-header bg-white font-weight-bold">
 			Editar tu Perfil
 		</h5>
@@ -115,6 +115,60 @@
 					{{ Form::submit(__('Actualizar'), ['class' => 'btn btn-primary font-weight-bold']) }}
 				</div>
 			</div>
+			{{ Form::close() }}
+		</div>
+	</div>
+
+	<div class="card shadow-sm">
+		<div class="card-header font-weight-bold">
+			Cambiar Contraseña
+		</div>
+		<div class="card-body">
+			{{ Form::open(['route' => 'users.change.password', 'method' => 'PUT']) }}
+
+			<div class="form-group row">
+				{{ Form::label('password_current', 'Contraseña actual', ['class' => 'col-sm-3 offset-sm-1 col-form-label']) }}
+				<div class="col-sm-8">
+					{{ Form::password('password_current', ['class' => 'form-control', 'required' => true]) }}
+				</div>
+				@if ($errors->has('password_current'))
+						<span style="color: red">
+						<strong>{{ $errors->first('password_current') }}</strong>
+					</span>
+				@endif
+			</div>
+
+			<div class="form-group row">
+				{{ Form::label('password', 'Nueva contraseña', ['class' => 'col-sm-3 offset-sm-1 col-form-label']) }}
+				<div class="col-sm-8">
+					{{ Form::password('password', ['class' => 'form-control', 'required' => true]) }}
+				</div>
+
+				@if ($errors->has('password'))
+					<span style="color: red">
+						<strong>{{ $errors->first('password') }}</strong>
+					</span>
+				@endif
+			</div>
+
+			<div class="form-group row">
+				{{ Form::label('password_confirmation', 'Confirmar contraseña', ['class' => 'col-sm-3 offset-sm-1 col-form-label']) }}
+				<div class="col-sm-8">
+					{{ Form::password('password_confirmation', ['class' => 'form-control', 'required' => true]) }}
+				</div>
+				@if ($errors->has('password_confirmation'))
+					<span style="color: red">
+						<strong>{{ $errors->first('password_confirmation') }}</strong>
+					</span>
+				@endif
+			</div>
+
+			<div class="form-group row">
+				<div class="col-sm-8 offset-sm-4">
+					{{ Form::submit('Actualizar Contraseña', ['class' => 'btn btn-primary  float-sm-left font-weight-bold']) }}
+				</div>
+			</div>
+
 			{{ Form::close() }}
 		</div>
 	</div>
