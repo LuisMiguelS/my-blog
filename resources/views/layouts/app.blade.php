@@ -71,8 +71,12 @@
         });
     </script>
 
-    @if(setting()->get('ads.script',false))
+    @if(setting()->get('ads.script'))
         {!! setting()->get('ads.ads_script') !!}
+    @endif
+
+    @if(setting()->get('shareThis.share_script') && !$admin_nav)
+        {!! setting()->get('shareThis.share_script') !!}
     @endif
 
     @yield('js')

@@ -57,3 +57,5 @@
 <div class="card bg-transparent mb-5">
     {!! setting()->get('ads.ads_side') !!}
 </div>
+
+{!! setting()->get('shareThis.share_block') !!}

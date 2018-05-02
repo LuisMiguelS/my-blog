@@ -16,12 +16,13 @@
             <div class="card shadow-sm mb-5">
                 <img class="card-img-top" src="{{ $post->image }}" alt="{{ $post->title }}">
                 <div class="card-body">
-                    {!! setting()->get('shareThis.share_block') !!}
+                    <h4 class="card-title">{{  $post->title }}</h4>
 
-                    <h4 class="card-title card-show-title">{{  $post->title }}</h4>
-                    <p class="card-text"><small class="text-muted font-weight-bold">{{ $post->created_at->format('l d, F Y') }}</small>
+                    <p class="card-text">
+                        <small class="text-muted font-weight-bold">{{ $post->created_at->format('l d, F Y') }}</small>
                     </p>
-                    <p class="card-text card-show-body">{!! $post->body !!}</p>
+
+                    <p class="card-text">{!! $post->body !!}</p>
                 </div>
                 <div class="card-footer bg-white">
                     <p class="card-text"><b>Autor :</b> {{  optional($post->user)->name  }}</p>
@@ -66,7 +67,6 @@
 @endcomponent
 
 @section('js')
-    {!! setting()->get('shareThis.share_script') !!}
     {!! setting()->get('disqus.disqus_script') !!}
 @endsection
 
