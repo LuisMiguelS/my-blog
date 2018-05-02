@@ -7,9 +7,12 @@
                    {!! setting()->get('ads.ads_bottom') !!}
                @endif
 
-               <h4 class="font-weight-bold">Quizas te pueda interezar</h4>
+               @if($ramdom->count() > 0)
+                   <h4 class="font-weight-bold">Quizas te pueda interezar</h4>
 
-               @include('partials.media-card', ['posts' => $ramdom, 'color_white' => 'text-white', 'media_style' => 'bg-transparent'])
+                   @include('partials.media-card', ['posts' => $ramdom, 'color_white' => 'text-white', 'media_style' => 'bg-transparent'])
+               @endif
+
            </div>
            <div class="col-md-4 font-weight-bold ">
               @if($category->count())
@@ -26,7 +29,7 @@
 
               @endif
            </div>
-               <div class="col-md-4 font-weight-bold ">
+           <div class="col-md-4 font-weight-bold ">
 
                     <h4 class="font-weight-bold">{{ setting()->get('blog.name'). ' Información de contacto' }}</h4>
 

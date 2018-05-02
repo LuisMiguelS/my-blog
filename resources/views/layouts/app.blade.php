@@ -11,7 +11,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title') {{  setting()->get('blog.site_name') ?? 'Laravel'  }}</title>
+    <title>@yield('title')  {{ setting()->get('blog.site_name') ?? config('app.name','Laravel') }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -28,7 +28,7 @@
         <div class="container">
                 <a class="navbar-brand font-weight-bold" href="{{ url('/') }}">
                     {{--<img src="{{ asset('recursos/imagenes/nav-logo.png') }}" width="30" height="30" class="d-inline-block align-top" alt="">--}}
-                    {{ setting()->get('blog.site_name' ?? 'Laravel') }}
+                    {{ setting()->get('blog.site_name') ?? config('app.name','Laravel') }}
                 </a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

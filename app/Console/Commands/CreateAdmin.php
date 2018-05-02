@@ -3,10 +3,7 @@
 namespace App\Console\Commands;
 
 use App\User;
-use App\RolesInstall;
-use App\PermissionInstall;
 use Illuminate\Console\Command;
-use Spatie\Permission\Models\Role;
 
 class CreateAdmin extends Command
 {

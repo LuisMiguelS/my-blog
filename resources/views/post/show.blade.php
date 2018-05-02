@@ -76,7 +76,7 @@
             color: #fff !important;
         }
         .navbar-laravel {
-            background-color: #232323;
+            background-color: #343a40!important;
         }
         .nav-link {
             color: #FFF !important;
@@ -85,6 +85,10 @@
         .nav-link:focus{
             color: #FFF !important;
             border-bottom: 2px solid #FFF !important;
+        }
+        .navbar-toggler {
+            color: rgba(255,255,255,.5) !important;
+            border-color: rgba(255,255,255,.1) !important;
         }
     </style>
 @endsection

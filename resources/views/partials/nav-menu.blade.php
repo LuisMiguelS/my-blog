@@ -7,16 +7,18 @@
         </li>
     @endforeach
 
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Otras categorias
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            @foreach($categories->take(-20)->all() as $slug => $category)
-                <a class="dropdown-item" href="{{ $slug }}">{{ $category }}</a>
-            @endforeach
-        </div>
-    </li>
+    @if($categories->count() > 10)
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Otras categorias
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    @foreach($categories->take(-20)->all() as $slug => $category)
+                        <a class="dropdown-item" href="{{ $slug }}">{{ $category }}</a>
+                    @endforeach
+                </div>
+            </li>
+    @endif
 
 </ul>
 
