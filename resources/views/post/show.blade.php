@@ -18,10 +18,10 @@
                 <div class="card-body">
                     {!! setting()->get('shareThis.share_block') !!}
 
-                    <h5 class="card-title">{{  $post->title }}</h5>
+                    <h4 class="card-title card-show-title">{{  $post->title }}</h4>
                     <p class="card-text"><small class="text-muted font-weight-bold">{{ $post->created_at->format('l d, F Y') }}</small>
                     </p>
-                    <p class="card-text">{!! $post->body !!}</p>
+                    <p class="card-text card-show-body">{!! $post->body !!}</p>
                 </div>
                 <div class="card-footer bg-white">
                     <p class="card-text"><b>Autor :</b> {{  optional($post->user)->name  }}</p>

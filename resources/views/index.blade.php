@@ -17,8 +17,8 @@
                         <a href="{{ url( optional($post->category)->slug .'/'. $post->slug ) }}">
                             <img class="card-img" src="{{ $post->image }}">
                             <div class="card-img-overlay">
-                                <h5 class="card-title text-white font-weight-bold">{{ $post->title }}</h5>
-                                <p class="card-text text-white font-weight-bold">{{ optional($post->category)->name }}</p>
+                                <h5 class="card-title text-white img-title">{{ $post->title }}</h5>
+                                <p class="card-text text-white img-tag">{{ optional($post->category)->name }}</p>
                             </div>
                         </a>
                     </div>

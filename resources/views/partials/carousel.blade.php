@@ -6,8 +6,8 @@
                 <a href="{{ url( optional($post->category)->slug .'/'. $post->slug ) }}">
                     <img class="d-block img-fluid" src="{{ $post->image }}" alt="Second slide">
                     <div class="carousel-caption">
-                        <h3>{{ optional($post->category)->name }}</h3>
-                        <p class="font-weight-bold text-uppercase">{{ $post->title }}</p>
+                        <h3 class="img-tag">{{ optional($post->category)->name }}</h3>
+                        <p class="img-title text-uppercase">{{ $post->title }}</p>
                     </div>
                 </a>
             </div>
