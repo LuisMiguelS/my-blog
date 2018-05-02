@@ -38,7 +38,9 @@ class TagController extends Controller
 
         $posts = $tag->posts()->published();
 
-        return view('post.search', compact('posts'));
+        $search =  ['q' => $tag->tag];
+
+        return view('post.search', compact('posts', 'search'));
     }
     
     public function store(CreateTagRequest $request)

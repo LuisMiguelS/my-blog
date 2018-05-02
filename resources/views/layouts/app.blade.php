@@ -7,6 +7,10 @@
     <meta name="author" content="@yield('author')">
     <meta name="description" content="@yield('description')">
     <meta name="keywords" content="@yield('keywords')">
+    <meta property="og:url" content="@yield('url') {{ config('app.url') }}">
+    <meta property="og:image" content="@yield('image')">
+    <meta property="og:image:width" content="600">
+    <meta property="og:image:height" content="304">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">

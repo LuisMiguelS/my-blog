@@ -8,6 +8,10 @@
 
 @section('title', $post->title)
 
+@section('image', $post->image)
+
+@section('url', url(optional($post->category)->slug .'/'. $post->slug ))
+
 @component('component.content')
 
     <div class="row">

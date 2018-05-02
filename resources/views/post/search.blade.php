@@ -5,9 +5,9 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
 
-            @if($search['q'])
+            @isset($search['q'])
                 <h1 class="font-weight-bold mb-5" >Resultados de busqueda:  <span class="text-primary">{{ $search['q'] }}</span></h1>
-            @endif
+            @endisset
 
             @if($posts->count())
 
