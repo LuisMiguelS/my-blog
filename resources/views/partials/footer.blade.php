@@ -31,38 +31,38 @@
            </div>
            <div class="col-md-4 font-weight-bold ">
 
-                    <h4 class="font-weight-bold">{{ setting()->get('blog.name'). ' Información de contacto' }}</h4>
+               <img src="{{ asset('images/logo.png') }}" class="img-fluid" alt="notidigitalrd_logo">
 
-                    @if(setting()->get('blog.contact_email'))
-                       <p>{{ 'Correo Electrónico: '. setting()->get('blog.contact_email') }}</p>
-                    @endif
+               <h4 class="font-weight-bold">{{ setting()->get('blog.name'). ' Información de contacto' }}</h4>
 
+                @if(setting()->get('blog.contact_email'))
+                   <p>{{ 'Correo Electrónico: '. setting()->get('blog.contact_email') }}</p>
+                @endif
 
-                    @if(setting()->get('blog.contact_number'))
-                       <p>{{ 'Teléfono: '. setting()->get('blog.contact_number') }}</p>
-                    @endif
+                @if(setting()->get('blog.contact_number'))
+                   <p>{{ 'Teléfono: '. setting()->get('blog.contact_number') }}</p>
+                @endif
 
-                    @if(setting()->get('blog.address'))
-                       <p>{{ 'Dirección: '. setting()->get('blog.address') }}</p>
-                    @endif
+                @if(setting()->get('blog.address'))
+                   <p>{{ 'Dirección: '. setting()->get('blog.address') }}</p>
+                @endif
 
+                @if(setting()->get('blog.blog_youtube'))
+                   <a href="{{ setting()->get('blog.youtube') }}" class="fab fa-youtube social-btn shadow-sm"></a>
+                @endif
 
-                    @if(setting()->get('blog.blog_youtube'))
-                       <a href="{{ setting()->get('blog.youtube') }}" class="fab fa-youtube social-btn shadow-sm"></a>
-                    @endif
+                @if(setting()->get('blog.blog_facebook'))
+                   <a href="{{ setting()->get('blog.blog_facebook') }}" class="fab fa-facebook-square social-btn shadow-sm"></a>
+                @endif
 
-                    @if(setting()->get('blog.blog_facebook'))
-                       <a href="{{ setting()->get('blog.blog_facebook') }}" class="fab fa-facebook-square social-btn shadow-sm"></a>
-                    @endif
+                @if(setting()->get('blog.blog_instagram'))
+                   <a href="{{ setting()->get('blog.instagram') }}" class="fab fa-twitter social-btn shadow-sm"></a>
+                @endif
 
-                    @if(setting()->get('blog.blog_instagram'))
-                       <a href="{{ setting()->get('blog.instagram') }}" class="fab fa-twitter social-btn shadow-sm"></a>
-                    @endif
-
-                    @if(setting()->get('blog.blog_twitter'))
-                       <a href="{{ setting()->get('blog.twitter') }}" class="fab fa-instagram social-btn shadow-sm"></a>
-                    @endif
-               </div>
+                @if(setting()->get('blog.blog_twitter'))
+                   <a href="{{ setting()->get('blog.twitter') }}" class="fab fa-instagram social-btn shadow-sm"></a>
+                @endif
+           </div>
        </div>
    </div>
 </footer>

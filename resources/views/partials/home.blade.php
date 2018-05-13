@@ -7,6 +7,6 @@
     </div>
 
     <div class="col-md-6">
-        @include('partials.media-card', ['posts' => $category->posts->take(-8)])
+        @include('partials.media-card', ['posts' => $category->posts->take(-10)])
     </div>
 </div>

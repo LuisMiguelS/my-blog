@@ -37,7 +37,7 @@ class ViewComposerServiceProvider extends ServiceProvider
             $categories = Category::whereHas('posts', function ($query) {
                 $query->where('status', Post::PUBLISHED);
             })->with(['posts' => function($query) {
-                $query->orderBy('id','DESC')->take(50);
+                $query->orderBy('id','DESC')->take(60);
             }])->limit(5)->get();
 
             $view->with(compact('carousel', 'categories'));

@@ -31,8 +31,8 @@
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
         <div class="container">
                 <a class="navbar-brand font-weight-bold" href="{{ url('/') }}">
-                    {{--<img src="{{ asset('recursos/imagenes/nav-logo.png') }}" width="30" height="30" class="d-inline-block align-top" alt="">--}}
-                    {{ setting()->get('blog.site_name') ?? config('app.name','Laravel') }}
+                    <img src="{{ asset('images/logo.png') }}" width="150" height="50" class="d-inline-block align-top" alt="notidigitalrd_logo">
+                    {{--{{ setting()->get('blog.site_name') ?? config('app.name','Laravel') }}--}}
                 </a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
