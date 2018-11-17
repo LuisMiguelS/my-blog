@@ -15,7 +15,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title')  {{ setting()->get('blog.site_name') ?? config('app.name','Laravel') }}</title>
+    <title>@yield('title')  {{ setting()->get('blog.site_name') ?? config('app.name','Blog') }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">

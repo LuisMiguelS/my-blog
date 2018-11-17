@@ -4,7 +4,7 @@
     </h6>
     <div class="card bg-transparent mb-5">
         <div class="card-body">
-            @include('partials.media-card', ['posts' => $post_most_seen])
+            @include('partials.media-card', ['posts' => $lastPost])
         </div>
     </div>
 @endif

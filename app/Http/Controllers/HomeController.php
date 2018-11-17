@@ -22,10 +22,10 @@ class HomeController extends Controller
     public function search()
     {
         $search = request()->validate([
-            'q' => 'required|min:3|max:255'
+            'q' => 'nullable|min:3|max:255'
         ]);
 
-        $posts = Post::search($search['q'])->published();
+        $posts = Post::search($search['q'] ?? null)->published();
 
         return view('post.search', compact('posts', 'search'));
     }

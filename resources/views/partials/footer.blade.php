@@ -62,6 +62,16 @@
                 @if(setting()->get('blog.blog_twitter'))
                    <a href="{{ setting()->get('blog.twitter') }}" class="fab fa-instagram social-btn shadow-sm"></a>
                 @endif
+
+               <p>Diseñado por:
+                   <strong>
+                       <a class="text-white" href="https://cristiangomez.netlify.com" target="_blank">Cristian Gómez</a>
+                   </strong>
+                   &
+                   <strong>
+                       <a class="text-white" href="https://www.linkedin.com/in/luis-miguel-rodriguez-bido-a30ba616b" target="_blank">Luis Miguel Rodriguez</a>
+                   </strong>
+               </p>
            </div>
        </div>
    </div>

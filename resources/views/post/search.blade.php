@@ -45,7 +45,7 @@
             @endif
 
 
-            {{ $posts->links() }}
+            {{ $posts->appends(['q' => request()->q])->links() }}
         </div>
     </div>
 
