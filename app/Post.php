@@ -111,8 +111,26 @@ class Post extends Model
 
     public static function archives()
     {
-        return static::selectRaw("year(created_at) year, monthname(created_at) month, count(*) published")
-            ->groupBy('year', 'month')
+        return static::selectRaw("
+            year(created_at) year,
+            count(*) published,
+            MONTHNAME(created_at) month,
+            CASE
+                WHEN MONTH(created_at) = 1 THEN 'Enero'
+                WHEN MONTH(created_at) = 2 THEN 'Febrero'
+                WHEN MONTH(created_at) = 3 THEN 'Marzo'
+                WHEN MONTH(created_at) = 4 THEN 'Abril'
+                WHEN MONTH(created_at) = 5 THEN 'Mayo'
+                WHEN MONTH(created_at) = 6 THEN 'Junio'
+                WHEN MONTH(created_at) = 7 THEN 'Julio'
+                WHEN MONTH(created_at) = 8 THEN 'Agosto'
+                WHEN MONTH(created_at) = 9 THEN 'Septiembre'
+                WHEN MONTH(created_at) = 10 THEN 'Octubre'
+                WHEN MONTH(created_at) = 11 THEN 'Noviembre'
+                WHEN MONTH(created_at) = 12 THEN 'Diciembre'
+            END mes
+        ")
+            ->groupBy('year', 'month', 'mes')
             ->orderByRaw('min(created_at) desc')
             ->get()
             ->toArray();

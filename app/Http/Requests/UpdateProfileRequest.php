@@ -24,7 +24,7 @@ class UpdateProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'avatar' => 'image:jpeg,png,gif,svg|max:5120',
+            'avatar' => 'mimes:jpeg,jpg,png,gif,svg|max:5120',
             'about' => 'required|min:20',
             'facebook' => 'nullable|url',
             'twitter' => 'nullable|url',

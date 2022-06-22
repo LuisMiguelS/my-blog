@@ -4,11 +4,10 @@
 
 	<div class="card shadow-sm mb-5">
 		<h5 class="card-header bg-white font-weight-bold">
-			Editar tu Perfil
+			Editar Perfil
 		</h5>
 		<div class="card-body bg-light">
 			{{ Form::open(['route' => ['profile.update', $profile->id], 'method' => 'PUT', 'files' => true]) }}
-
 
 			<div class="form-group row">
 				{{ Form::label('avatar', __('Avatar'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
@@ -27,7 +26,7 @@
 			</div>
 
 			<div class="form-group row">
-				{{ Form::label('facebook', __('Perfil de facebook'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
+				{{ Form::label('facebook', __('Perfil de Facebook'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
 
 				<div class="col-md-6">
 					{{ Form::text('facebook', old('facebook', $profile->facebook ), ['class' => $errors->has('facebook') ? 'form-control is-invalid' : 'form-control', 'required' => false]) }}
@@ -41,12 +40,12 @@
 			</div>
 
 			<div class="form-group row">
-				{{ Form::label('instragram', __('Perfil de instragram'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
+				{{ Form::label('instragram', __('Perfil de Instragram'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
 
 				<div class="col-md-6">
-					{{ Form::text('instragram', old('instragram', $profile->facebook ), ['class' => $errors->has('instragram') ? 'form-control is-invalid' : 'form-control', 'required' => false]) }}
+					{{ Form::text('instragram', old('instragram', $profile->instragram ), ['class' => $errors->has('instragram') ? 'form-control is-invalid' : 'form-control', 'required' => false]) }}
 
-					@if ($errors->has('facebook'))
+					@if ($errors->has('instragram'))
 						<span class="invalid-feedback">
 			             <strong>{{ $errors->first('instragram') }}</strong>
 			         </span>
@@ -55,10 +54,10 @@
 			</div>
 
 			<div class="form-group row">
-				{{ Form::label('twitter', __('Perfil de twitter'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
+				{{ Form::label('twitter', __('Perfil de Twitter'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
 
 				<div class="col-md-6">
-					{{ Form::text('twitter', old('twitter', $profile->facebook ), ['class' => $errors->has('twitter') ? 'form-control is-invalid' : 'form-control', 'required' => false]) }}
+					{{ Form::text('twitter', old('twitter', $profile->twitter ), ['class' => $errors->has('twitter') ? 'form-control is-invalid' : 'form-control', 'required' => false]) }}
 
 					@if ($errors->has('twitter'))
 						<span class="invalid-feedback">
@@ -69,7 +68,7 @@
 			</div>
 
 			<div class="form-group row">
-				{{ Form::label('youtube', __('Perfil de youtube'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
+				{{ Form::label('youtube', __('Perfil de YouTube'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
 
 				<div class="col-md-6">
 					{{ Form::text('youtube', old('youtube', $profile->youtube), ['class' => $errors->has('youtube') ? 'form-control is-invalid' : 'form-control', 'required' => false]) }}
@@ -82,11 +81,11 @@
 				</div>
 			</div>
 
-			<div class="form-group row">
-				{{ Form::label('google_plus', __('Perfil de google plus'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
+			{{-- <div class="form-group row">
+				{{ Form::label('google_plus', __('Perfil de Google Plus'), ['class' => 'col-md-4 col-form-label text-md-right']) }}
 
 				<div class="col-md-6">
-					{{ Form::text('google_plus', old('google_plus', $profile->youtube), ['class' => $errors->has('google_plus') ? 'form-control is-invalid' : 'form-control', 'required' => false]) }}
+					{{ Form::text('google_plus', old('google_plus', $profile->google_plus), ['class' => $errors->has('google_plus') ? 'form-control is-invalid' : 'form-control', 'required' => false]) }}
 
 					@if ($errors->has('google_plus'))
 						<span class="invalid-feedback">
@@ -94,7 +93,7 @@
 			         </span>
 					@endif
 				</div>
-			</div>
+			</div> --}}
 
 			<div class="form-group row">
 				{{ Form::label('about', __('Acerca de ti'), ['class' => 'col-md-4 col-form-label text-md-right']) }}

@@ -1,33 +1,36 @@
 <!-- Left Side Of Navbar -->
 <ul class="navbar-nav mr-auto font-weight-bold">
+    <li class="nav-item @if(Request::path() == '/') active @endif">
+        <a class="nav-link" href="/">Inicio</a>
+    </li>
 
-    @foreach($categories->take(10)->all() as $slug => $category)
-        <li class="nav-item">
-            <a class="nav-link" href="{{ url($slug) }}">{{ $category }} <span class="sr-only">(current)</span></a>
+    @foreach($categories->take(7)->all() as $slug => $category)
+        <li class="nav-item @if(Request::path() == $slug) active @endif">
+            <a class="nav-link" href="{{ url($slug) }}">{{ $category }}</a>
         </li>
     @endforeach
 
-    @if($categories->count() > 10)
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Otras categorias
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    @foreach($categories->take(-20)->all() as $slug => $category)
+    @if($categories->count() > 7)
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Otras categorías
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                @foreach($categories->all() as $slug => $category)
+                    @if($loop->index > 6)
                         <a class="dropdown-item" href="{{ $slug }}">{{ $category }}</a>
-                    @endforeach
-                </div>
-            </li>
+                    @endif
+                @endforeach
+            </div>
+        </li>
     @endif
 
 </ul>
 
 <!-- Right Side Of Navbar -->
-<ul class="nav navbar-nav ml-auto font-weight-bold">
-    <!-- Authentication Links -->
+{{-- <ul class="nav navbar-nav ml-auto font-weight-bold">
     @guest
         <li><a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar sesión') }}</a></li>
-       {{-- <li><a class="nav-link" href="{{ route('register') }}">{{ __('Registro') }}</a></li>--}}
     @else
         <li class="nav-item dropdown">
             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -53,4 +56,4 @@
             </div>
         </li>
     @endguest
-</ul>
+</ul> --}}

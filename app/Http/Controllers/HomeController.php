@@ -14,7 +14,9 @@ class HomeController extends Controller
     public function archive()
     {
         $posts = Post::filter([request()->month, request()->year])
-            ->published();
+            ->where('status', Post::PUBLISHED)
+            ->whereNull('deleted_at')
+            ->paginate(25);
 
         return view('post.search', compact('posts'));
     }
@@ -25,7 +27,10 @@ class HomeController extends Controller
             'q' => 'nullable|min:3|max:255'
         ]);
 
-        $posts = Post::search($search['q'] ?? null)->published();
+        $posts = Post::search($search['q'] ?? null)
+            ->where('status', Post::PUBLISHED)
+            ->whereNull('deleted_at')
+            ->paginate(25);
 
         return view('post.search', compact('posts', 'search'));
     }

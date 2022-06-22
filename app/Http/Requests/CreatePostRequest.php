@@ -29,7 +29,7 @@ class CreatePostRequest extends FormRequest
             'title' => 'required|min:20|max:255',
             'seo_title' => 'nullable|min:20',
             'body' => 'required',
-            'image' => 'nullable|image:jpeg,png,gif,svg|max:5120',
+            'image' => 'nullable|mimes:jpeg,jpg,png,gif,svg|max:5120',
             'status' => 'in:' .Post::PUBLISHED. ',' .Post::DRAFT. ',' .Post::PENDING,
             'excerpt' => 'required|min:20',
             'meta_description' => 'nullable|min:15',

@@ -33,6 +33,12 @@ Route::resource('tags', 'TagController')->except('show');
 Route::resource('users', 'UserController')->except('show');
 
 /*
+ * RUTAS PARA EL MODULO DE LOS ANUNCIOS
+ */
+Route::resource('anuncios', 'AnuncioController')->only(['index', 'edit', 'update', 'destroy']);
+Route::post('anuncios/restore/{id}', 'AnuncioController@restore')->name('anuncios.restore');
+
+/*
  * Profile
  */
 Route::put('profile/change/password', 'ProfileController@changePassword')->name('users.change.password');

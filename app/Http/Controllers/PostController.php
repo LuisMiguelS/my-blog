@@ -46,7 +46,7 @@ class PostController extends Controller
 
     public function show($category_slug, $post_slug)
     {
-        $post = Post::with(['user:id,name','category:id,slug'])
+        $post = Post::with(['user:id,name,avatar','category:id,slug,name', 'tags'])
             ->where('status', Post::PUBLISHED)
             ->findBySlug($post_slug);
 

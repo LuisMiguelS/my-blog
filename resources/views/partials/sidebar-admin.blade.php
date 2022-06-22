@@ -113,9 +113,15 @@
              ShareThis Plugin
          </a>
 
-         <a class="app-list-group-item list-group-item-action" href="{{ route('settings.ads') }}">
+         <a class="app-list-group-item list-group-item-action" href="{{ route('anuncios.index') }}">
              <i class="fas fa-puzzle-piece"></i>
              Bloque de Anuncios
          </a>
+
+         {{-- <a class="app-list-group-item list-group-item-action" href="{{ route('settings.ads') }}">
+             <i class="fas fa-puzzle-piece"></i>
+             Bloque de Anuncios
+         </a> --}}
+
      @endcan
  </div>
