@@ -8,7 +8,7 @@
                             {{-- Descripción del sitio --}}
                             <div class="widget__footer">
                                 <figure>
-                                    <img src="{{ asset('images/logo-light.png') }}" alt="notidigitalrd" class="logo-footer">
+                                    <img src="{{ asset('images/logo-light.png') }}" alt="notidigitalrd" class="logo-footer" style="width: 250px;">
                                 </figure>
 
                                 <p class="text-justify">

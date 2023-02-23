@@ -2,6 +2,15 @@
 <html lang="">
 
 <head>
+    <!-- Google tag (gtag.js) -->
+    {{-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-251PCL07C9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-251PCL07C9');
+    </script> --}}
     <title>@yield('title')  {{ setting()->get('blog.site_name') ?? config('app.name','Blog') }}</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -70,7 +79,7 @@
                     <div class=" col-sm-12 col-md-4 my-auto d-none d-sm-block ">
                         <figure class="mb-0">
                             <a href="/">
-                                <img src="{{ asset('images/logo-light.png') }}" alt="notidigitalrd" class="img-fluid" style="height: 60px;">
+                                <img src="{{ asset('images/logo-light.png') }}" alt="notidigitalrd" class="img-fluid" style="height: 100px;">
                             </a>
                         </figure>
                     </div>
@@ -84,11 +93,11 @@
                     </div> --}}
 
                     {{-- Fecha y hora --}}
-                    <div class="col-md-4" style="display: flex; justify-content: center; align-items: center; font-size: 18px;">
+                    <div class="col-md-4" style="display: flex; justify-content: center; align-items: center; font-size: 14px;">
                         <span id="clock" class="text-white"></span>
                     </div>
 
-                    <div class="col-sm-12 col-md-4">
+                    <div class="col-sm-12 col-md-4" style="display: flex; justify-content: center; align-items: center;">
                         <div class="list-unstyled topbar-right" style="display: flex; justify-content: end; align-items: center;">
                             <ul class="topbar-link">
                                 @guest
@@ -198,7 +207,7 @@
 
                     <figure class="mb-0 mx-auto d-block d-sm-none sticky-logo">
                         <a href="/">
-                            <img src="{{ asset('images/logo.png') }}" alt="notidigitalrd" class="img-fluid">
+                            <img src="{{ asset('images/logo.png') }}" alt="notidigitalrd" class="img-fluid" style="width: 100px;">
                         </a>
                     </figure>
 

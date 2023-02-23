@@ -31,7 +31,7 @@
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
         <div class="container">
                 <a class="navbar-brand font-weight-bold" href="{{ url('/') }}">
-                    <img src="{{ asset('images/logo.png') }}" width="150" height="50" class="d-inline-block align-top" alt="notidigitalrd_logo">
+                    <img src="{{ asset('images/logo.png') }}" width="100px" height="auto" class="d-inline-block align-top" alt="notidigitalrd_logo">
                     {{--{{ setting()->get('blog.site_name') ?? config('app.name','Laravel') }}--}}
                 </a>
 
